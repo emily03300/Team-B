@@ -1,3 +1,3 @@
 import datetime
 
-print("Today is {}".format(time.localtime()))
+print("Today is {}".format(datetime.datetime.now()))
