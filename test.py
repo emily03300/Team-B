@@ -31,7 +31,7 @@ if __name__ == '__main__':
             # Use a copy() to get the copy of the set, avoiding 'set change size during iteration' error
             # Create CSV message "'realtime', time, temp, SN1, SN2, SN3, SN4, PM25\n"
             epoch_time = int(time())    # epoch time
-            temp = tem[0,100];      # random temperature
+            temp = temp(0,100);      # random temperature
             SN1 = uniform(40, 50)       # random SN1 value
             SN2 = uniform(60, 70)       # random SN2 value
             SN3 = uniform(80, 90)       # random SN3 value
