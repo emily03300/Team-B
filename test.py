@@ -33,7 +33,7 @@ if __name__ == '__main__':
         for client_handler in server.active_client_handlers.copy():
             # Use a copy() to get the copy of the set, avoiding 'set change size during iteration' error
             # Create CSV message "'realtime', time, temp, SN1, SN2, SN3, SN4, PM25\n"
-
+            from neo import Gpio
             neo = Gpio()
 
             S0 = 24  # pin to use
@@ -58,13 +58,7 @@ if __name__ == '__main__':
             neo.digitalWrite(pinNum[3], 1)
             # sleep(0.5)
 
-            while True:
-                raw = int(open("/sys/bus/iio/devices/iio:device0/in_voltage0_raw").read())
-                scale = float(open("/sys/bus/iio/devices/iio:device0/in_voltage_scale").read())
-                v = raw * scale
-                temp = (v - 500) / 10 - 6
-                sleep(1)
-                print(temp)
+
 
 
 
@@ -75,6 +69,13 @@ if __name__ == '__main__':
             SN3 = uniform(80, 90)       # random SN3 value
             SN4 = uniform(100, 110)     # random SN4 value
             PM25 = uniform(120, 130)    # random PM25 value
+            epoch_time = time()
+            raw = int(open("/sys/bus/iio/devices/iio:device0/in_voltage0_raw").read())
+            scale = float(open("/sys/bus/iio/devices/iio:device0/in_voltage_scale").read())
+            v = raw * scale
+            temp = (v - 500) / 10 - 6
+            sleep(1)
+
 
             msg = ""
             if args.output_format == "csv":
