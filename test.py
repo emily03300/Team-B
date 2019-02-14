@@ -1,8 +1,5 @@
 from btserver import BTServer
 from bterror import BTError
-from neo import Gpio  # import Gpio library
-from time import sleep
-
 
 import argparse
 import asyncore
@@ -33,13 +30,21 @@ if __name__ == '__main__':
         for client_handler in server.active_client_handlers.copy():
             # Use a copy() to get the copy of the set, avoiding 'set change size during iteration' error
             # Create CSV message "'realtime', time, temp, SN1, SN2, SN3, SN4, PM25\n"
+
+            epoch_time = int(time())    # epoch time
+            SN1 = uniform(40, 50)       # random SN1 value
+            SN2 = uniform(60, 70)       # random SN2 value
+            SN3 = uniform(80, 90)       # random SN3 value
+            SN4 = uniform(100, 110)     # random SN4 value
+            PM25 = uniform(120, 130)    # random PM25 value
+
             from neo import Gpio
             neo = Gpio()
 
-            S0 = 24  # pin to use
-            S1 = 25
-            S2 = 26
-            S3 = 27
+            S0 = 2  # pin to use
+            S1 = 3
+            S2 = 4
+            S3 = 5
 
             pinNum = [S0, S1, S2, S3]
 
@@ -57,18 +62,6 @@ if __name__ == '__main__':
             # sleep(0.5)
             neo.digitalWrite(pinNum[3], 1)
             # sleep(0.5)
-
-
-
-
-
-            epoch_time = int(time())    # epoch time
-
-            SN1 = uniform(40, 50)       # random SN1 value
-            SN2 = uniform(60, 70)       # random SN2 value
-            SN3 = uniform(80, 90)       # random SN3 value
-            SN4 = uniform(100, 110)     # random SN4 value
-            PM25 = uniform(120, 130)    # random PM25 value
             epoch_time = time()
             raw = int(open("/sys/bus/iio/devices/iio:device0/in_voltage0_raw").read())
             scale = float(open("/sys/bus/iio/devices/iio:device0/in_voltage_scale").read())
@@ -76,10 +69,9 @@ if __name__ == '__main__':
             temp = (v - 500) / 10 - 6
             sleep(1)
 
-
             msg = ""
             if args.output_format == "csv":
-                msg = "realtime, %d, %f, %f, %f, %f, %f, %f" % (epoch_time, temp, SN1, SN2, SN3, SN4, PM25)
+                msg = "realtime, {}, {}, {}, {}, {}, {}, {}".format(epoch_time, temp, SN1, SN2, SN3, SN4, PM25)
             elif args.output_format == "json":
                 output = {'type': 'realtime',
                           'time': epoch_time,
@@ -91,13 +83,10 @@ if __name__ == '__main__':
                           'PM25': PM25}
                 msg = json.dumps(output)
             try:
-                client_handler.send(msg + '\n')
+                client_handler.send((msg + '\n').encode('ascii'))
             except Exception as e:
                 BTError.print_error(handler=client_handler, error=BTError.ERR_WRITE, error_message=repr(e))
                 client_handler.handle_close()
 
             # Sleep for 3 seconds
         sleep(3)
-
-
-
