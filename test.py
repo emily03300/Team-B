@@ -41,7 +41,7 @@ if __name__ == '__main__':
                 v = raw * scale
                 temp = (v - 500) / 10 - 6
                 sleep(1)
-                print(t)
+                print(temp)
 
 
 
