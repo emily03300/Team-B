@@ -34,6 +34,29 @@ if __name__ == '__main__':
             # Use a copy() to get the copy of the set, avoiding 'set change size during iteration' error
             # Create CSV message "'realtime', time, temp, SN1, SN2, SN3, SN4, PM25\n"
 
+            neo = Gpio()
+
+            S0 = 24  # pin to use
+            S1 = 25
+            S2 = 26
+            S3 = 27
+
+            pinNum = [S0, S1, S2, S3]
+
+            num = [0, 0, 0, 0]
+
+            # Blink example
+            for i in range(4):
+                neo.pinMode(pinNum[i], neo.OUTPUT)
+
+            neo.digitalWrite(pinNum[0], 1)
+            # sleep(0.5)
+            neo.digitalWrite(pinNum[1], 1)
+            # sleep(0.5)
+            neo.digitalWrite(pinNum[2], 1)
+            # sleep(0.5)
+            neo.digitalWrite(pinNum[3], 1)
+            # sleep(0.5)
 
             while True:
                 raw = int(open("/sys/bus/iio/devices/iio:device0/in_voltage0_raw").read())
