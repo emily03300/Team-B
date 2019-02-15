@@ -82,6 +82,7 @@ if __name__ == '__main__':
                           'SN4': SN4,
                           'PM25': PM25}
                 msg = json.dumps(output)
+                print(output['temp'])
             try:
                 client_handler.send((msg + '\n').encode('ascii'))
             except Exception as e:
