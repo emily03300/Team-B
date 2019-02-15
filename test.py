@@ -82,7 +82,7 @@ if __name__ == '__main__':
                           'SN3': SN3,
                           'SN4': SN4,
                           'PM25': PM25}
-                # msg = json.dumps(output)
+                msg = json.dumps(output)
 
             try:
                 client_handler.send((msg + '\n').encode('ascii'))
