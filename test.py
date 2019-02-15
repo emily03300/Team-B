@@ -62,7 +62,7 @@ if __name__ == '__main__':
             # sleep(0.5)
             neo.digitalWrite(pinNum[3], 1)
             # sleep(0.5)
-            epoch_time = time()
+            epoch_time =  int(time())
             raw = int(open("/sys/bus/iio/devices/iio:device0/in_voltage0_raw").read())
             scale = float(open("/sys/bus/iio/devices/iio:device0/in_voltage_scale").read())
             v = raw * scale
