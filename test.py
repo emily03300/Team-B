@@ -85,7 +85,7 @@ if __name__ == '__main__':
                 msg = json.dumps(output)
 
             try:
-               # client_handler.send((msg + '\n').encode('ascii'))
+                client_handler.send((msg + '\n').encode('ascii'))
             except Exception as e:
                 BTError.print_error(handler=client_handler, error=BTError.ERR_WRITE, error_message=repr(e))
                 client_handler.handle_close()
