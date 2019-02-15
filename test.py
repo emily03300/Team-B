@@ -67,12 +67,13 @@ if __name__ == '__main__':
             scale = float(open("/sys/bus/iio/devices/iio:device0/in_voltage_scale").read())
             v = raw * scale
             temp = (v - 500) / 10 + 45
+            print(temp)
             sleep(1)
 
             msg = ""
             if args.output_format == "csv":
                 msg = "realtime, {}, {}, {}, {}, {}, {}, {}".format(epoch_time, temp, SN1, SN2, SN3, SN4, PM25)
-                print(temp)
+
             elif args.output_format == "json":
                 output = {'type': 'realtime',
                           'time': epoch_time,
