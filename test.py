@@ -66,8 +66,7 @@ if __name__ == '__main__':
             raw = int(open("/sys/bus/iio/devices/iio:device0/in_voltage0_raw").read())
             scale = float(open("/sys/bus/iio/devices/iio:device0/in_voltage_scale").read())
             v = raw * scale
-            v20 = 345
-            temp = v - v20 + 20
+            temp = (v - 500)/10 - 6
             # temp = (v - 500) / 10 + 45
             print(temp)
             sleep(1)
