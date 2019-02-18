@@ -69,8 +69,8 @@ if __name__ == '__main__':
             v20 = 345
             temp = v - v20 + 20
             # temp = (v - 500) / 10 + 45
-            # print(temp)
-            # sleep(1)
+            print(temp)
+            sleep(1)
 
 
             # neo = Gpio()
