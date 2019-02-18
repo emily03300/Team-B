@@ -70,6 +70,134 @@ if __name__ == '__main__':
             print(temp)
             sleep(1)
 
+
+            # neo = Gpio()
+
+            S0 = 24  # pin to use
+            S1 = 25
+            S2 = 26
+            S3 = 27
+
+            pinNum = [S0, S1, S2, S3]
+
+            num = [0, 0, 0, 0]
+
+            # Blink example
+            for i in range(4):
+                neo.pinMode(pinNum[i], neo.OUTPUT)
+
+            neo.digitalWrite(pinNum[0], 0)
+            # sleep(0.5)
+            neo.digitalWrite(pinNum[1], 1)
+            # sleep(0.5)
+            neo.digitalWrite(pinNum[2], 0)
+            # sleep(0.5)
+            neo.digitalWrite(pinNum[3], 0)
+            # sleep(0.5)
+            epoch_time = int(time())
+            raw = int(open("/sys/bus/iio/devices/iio:device0/in_voltage0_raw").read())
+            scale = float(open("/sys/bus/iio/devices/iio:device0/in_voltage_scale").read())
+            c2 = raw * scale
+            # temp = (v - 500) / 10 + 45
+            print(c2)
+            sleep(1)
+
+
+            # neo = Gpio()
+
+            S0 = 24  # pin to use
+            S1 = 25
+            S2 = 26
+            S3 = 27
+
+            pinNum = [S0, S1, S2, S3]
+
+            num = [0, 0, 0, 0]
+
+            # Blink example
+            for i in range(4):
+                neo.pinMode(pinNum[i], neo.OUTPUT)
+
+            neo.digitalWrite(pinNum[0], 1)
+            # sleep(0.5)
+            neo.digitalWrite(pinNum[1], 1)
+            # sleep(0.5)
+            neo.digitalWrite(pinNum[2], 0)
+            # sleep(0.5)
+            neo.digitalWrite(pinNum[3], 0)
+            # sleep(0.5)
+            epoch_time = int(time())
+            raw = int(open("/sys/bus/iio/devices/iio:device0/in_voltage0_raw").read())
+            scale = float(open("/sys/bus/iio/devices/iio:device0/in_voltage_scale").read())
+            c3 = raw * scale
+            # sn1 = (v - 500) / 10 + 45
+            print(c3)
+            sleep(1)
+
+
+            # neo = Gpio()
+            #
+            # S0 = 24  # pin to use
+            # S1 = 25
+            # S2 = 26
+            # S3 = 27
+            #
+            # pinNum = [S0, S1, S2, S3]
+            #
+            # num = [0, 0, 0, 0]
+            #
+            # # Blink example
+            # for i in range(4):
+            #     neo.pinMode(pinNum[i], neo.OUTPUT)
+            #
+            # neo.digitalWrite(pinNum[0], 0)
+            # # sleep(0.5)
+            # neo.digitalWrite(pinNum[1], 0)
+            # # sleep(0.5)
+            # neo.digitalWrite(pinNum[2], 1)
+            # # sleep(0.5)
+            # neo.digitalWrite(pinNum[3], 0)
+            # # sleep(0.5)
+            # epoch_time = int(time())
+            # raw = int(open("/sys/bus/iio/devices/iio:device0/in_voltage0_raw").read())
+            # scale = float(open("/sys/bus/iio/devices/iio:device0/in_voltage_scale").read())
+            # v = raw * scale
+            # temp = (v - 500) / 10 + 45
+            # print(temp)
+            # sleep(1)
+            #
+            #
+            # neo = Gpio()
+            #
+            # S0 = 24  # pin to use
+            # S1 = 25
+            # S2 = 26
+            # S3 = 27
+            #
+            # pinNum = [S0, S1, S2, S3]
+            #
+            # num = [0, 0, 0, 0]
+            #
+            # # Blink example
+            # for i in range(4):
+            #     neo.pinMode(pinNum[i], neo.OUTPUT)
+            #
+            # neo.digitalWrite(pinNum[0], 1)
+            # # sleep(0.5)
+            # neo.digitalWrite(pinNum[1], 0)
+            # # sleep(0.5)
+            # neo.digitalWrite(pinNum[2], 1)
+            # # sleep(0.5)
+            # neo.digitalWrite(pinNum[3], 0)
+            # # sleep(0.5)
+            # epoch_time = int(time())
+            # raw = int(open("/sys/bus/iio/devices/iio:device0/in_voltage0_raw").read())
+            # scale = float(open("/sys/bus/iio/devices/iio:device0/in_voltage_scale").read())
+            # v = raw * scale
+            # temp = (v - 500) / 10 + 45
+            # print(temp)
+            # sleep(1)
+
             msg = ""
             if args.output_format == "csv":
                 msg = "realtime, {}, {}, {}, {}, {}, {}, {}".format(epoch_time, temp, SN1, SN2, SN3, SN4, PM25)
