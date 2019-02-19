@@ -32,11 +32,11 @@ if __name__ == '__main__':
             # Create CSV message "'realtime', time, temp, SN1, SN2, SN3, SN4, PM25\n"
 
             epoch_time = int(time())    # epoch time
-            SN1 = uniform(40, 50)       # random SN1 value
-            SN2 = uniform(60, 70)       # random SN2 value
-            SN3 = uniform(80, 90)       # random SN3 value
-            SN4 = uniform(100, 110)     # random SN4 value
-            PM25 = uniform(120, 130)    # random PM25 value
+            # SN1 = uniform(40, 50)       # random SN1 value
+            # SN2 = uniform(60, 70)       # random SN2 value
+            # SN3 = uniform(80, 90)       # random SN3 value
+            # SN4 = uniform(100, 110)     # random SN4 value
+            # PM25 = uniform(120, 130)    # random PM25 value
 
             from neo import Gpio
             neo = Gpio()
