@@ -694,31 +694,31 @@ if __name__ == '__main__':
 
 
             msg = ""
-            # if args.output_format == "csv":
-            #     msg = "realtime, {}, {}, {}, {}, {}, {}, {}".format(epoch_time, temp, sn1, sn2, sn3, sn4)
-            #
-            # elif args.output_format == "json":
-            #     output = {'type': 'realtime',
-            #               'time': epoch_time,
-            #               'temp': temp,
-            #               # 'SN1': SN1,
-            #               # 'SN2': SN2,
-            #               # 'SN3': SN3,
-            #               # 'SN4': SN4,
-            #               # 'PM25': PM25,
-            #               'SN1': sn1,
-            #               'SN2': sn2,
-            #               'SN3': sn3,
-            #               'SN4': sn4,
-            #               'PM25': PM25
-            #               }
-            #     msg = json.dumps(output)
-            #
-            # try:
-            #     client_handler.send((msg + '\n').encode('ascii'))
-            # except Exception as e:
-            #     BTError.print_error(handler=client_handler, error=BTError.ERR_WRITE, error_message=repr(e))
-            #     client_handler.handle_close()
+            if args.output_format == "csv":
+                msg = "realtime, {}, {}, {}, {}, {}, {}, {}".format(epoch_time, temp, sn1, sn2, sn3, sn4)
 
-            # Sleep for 3 seconds
+            elif args.output_format == "json":
+                output = {'type': 'realtime',
+                          'time': epoch_time,
+                          'temp': temp,
+                          # 'SN1': SN1,
+                          # 'SN2': SN2,
+                          # 'SN3': SN3,
+                          # 'SN4': SN4,
+                          # 'PM25': PM25,
+                          'SN1': sn1,
+                          'SN2': sn2,
+                          'SN3': sn3,
+                          'SN4': sn4,
+                          'PM25': PM25
+                          }
+                msg = json.dumps(output)
+
+            try:
+                client_handler.send((msg + '\n').encode('ascii'))
+            except Exception as e:
+                BTError.print_error(handler=client_handler, error=BTError.ERR_WRITE, error_message=repr(e))
+                client_handler.handle_close()
+
+            Sleep for 3 seconds
         sleep(5)
