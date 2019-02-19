@@ -397,6 +397,7 @@ class SensorServer(Thread):
             # Save output to the dict
             self.sensor_output[self.sensor_names[0]] = temp
 
+            print(1)
             logger.info("Reading {} sensor...".format(self.sensor_names[1]))
             c2, c3 = self.read_sensor(1)
             sn1 = ((c2 - 295) - ((0.75) * (c3 - 282))) * 4.386
