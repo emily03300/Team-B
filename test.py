@@ -439,6 +439,8 @@ class SensorServer(Thread):
             # Save output to the dict
             self.sensor_output[self.sensor_names[4]] = sn4
 
+            print(5)
+
             logger.info("Reading {} sensor...".format(self.sensor_names[5]))
             c10, c11 = self.read_sensor(5)
 
@@ -447,7 +449,7 @@ class SensorServer(Thread):
             # Save output to the dict
             self.sensor_output[self.sensor_names[5]] = pm25
 
-            print(5)
+            print(6)
 
             self.db_cur.execute("INSERT INTO history VALUES ({},{}, {}, {}, {}, {}, {})"
                                 .format(epoch_time, temp, sn1, sn2, sn3, sn4, pm25))
