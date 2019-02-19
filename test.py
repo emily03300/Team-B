@@ -446,6 +446,7 @@ class SensorServer(Thread):
             self.db_conn.commit()
             self.sensor_output_lock.release()
 
+            print("INSERT INTO history VALUES ({},{}, {}, {}, {}, {}, {})".format(epoch_time, temp, sn1, sn2, sn3, sn4, pm25))
             # Idle for 3 seconds
             sleep(1.8)
 
