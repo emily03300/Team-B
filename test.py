@@ -486,15 +486,14 @@ if __name__ == '__main__':
             # Use a copy() to get the copy of the set, avoiding 'set change size during iteration' error
             # Create CSV message "'realtime', time, temp, SN1, SN2, SN3, SN4, PM25\n"
 
-            epoch_time = int(time())  # epoch time
-            # SN1 = uniform(40, 50)  # random SN1 value
-            # SN2 = uniform(60, 70)  # random SN2 value
-            # SN3 = uniform(80, 90)  # random SN3 value
-            # SN4 = uniform(100, 110)  # random SN4 value
-            # PM25 = uniform(120, 130)  # random PM25 value
+            epoch_time = int(time())    # epoch time
+            # SN1 = uniform(40, 50)       # random SN1 value
+            # SN2 = uniform(60, 70)       # random SN2 value
+            # SN3 = uniform(80, 90)       # random SN3 value
+            # SN4 = uniform(100, 110)     # random SN4 value
+            PM25 = uniform(120, 130)    # random PM25 value
 
             from neo import Gpio
-
             neo = Gpio()
 
             S0 = 24  # pin to use
@@ -518,22 +517,24 @@ if __name__ == '__main__':
             # sleep(0.5)
             neo.digitalWrite(pinNum[3], 0)
             # sleep(0.5)
-            epoch_time = int(time())
+            epoch_time =  int(time())
             raw = int(open("/sys/bus/iio/devices/iio:device0/in_voltage0_raw").read())
             scale = float(open("/sys/bus/iio/devices/iio:device0/in_voltage_scale").read())
             v = raw * scale
-            temp = (v - 500)/10 - 6
-            # temp = (v - 500) / 10 + 45
+            # temp = (v - 500)/10 - 26
+            temp = (v - 500) / 10 + 45
             print(temp)
             sleep(1)
 
-            neo.digitalWrite(pinNum[0], 0)  # 1
+
+
+            neo.digitalWrite(pinNum[0], 0)#1
             # sleep(0.5)
-            neo.digitalWrite(pinNum[1], 1)  # 2
+            neo.digitalWrite(pinNum[1], 1)#2
             # sleep(0.5)
-            neo.digitalWrite(pinNum[2], 0)  # 4
+            neo.digitalWrite(pinNum[2], 0)#4
             # sleep(0.5)
-            neo.digitalWrite(pinNum[3], 0)  # 8
+            neo.digitalWrite(pinNum[3], 0)#8
             # sleep(0.5)
             epoch_time = int(time())
             raw = int(open("/sys/bus/iio/devices/iio:device0/in_voltage0_raw").read())
@@ -543,13 +544,16 @@ if __name__ == '__main__':
             print(c2)
             sleep(1)
 
-            neo.digitalWrite(pinNum[0], 1)  # 1
+
+
+
+            neo.digitalWrite(pinNum[0], 1)#1
             # sleep(0.5)
-            neo.digitalWrite(pinNum[1], 1)  # 2
+            neo.digitalWrite(pinNum[1], 1)#2
             # sleep(0.5)
-            neo.digitalWrite(pinNum[2], 0)  # 4
+            neo.digitalWrite(pinNum[2], 0)#4
             # sleep(0.5)
-            neo.digitalWrite(pinNum[3], 0)  # 8
+            neo.digitalWrite(pinNum[3], 0)#8
             # sleep(0.5)
             epoch_time = int(time())
             raw = int(open("/sys/bus/iio/devices/iio:device0/in_voltage0_raw").read())
@@ -559,8 +563,8 @@ if __name__ == '__main__':
             print(c3)
             sleep(1)
 
-            # 2 port 3port No2
-            sn1 = ((c2 - 295) - ((0.75) * (c3 - 282))) * 4.386
+            #2 port 3port No2
+            sn1 = ((c2 - 287) - ((0.75) * (c3 - 280))) / 0.212 #287 #280 #0.212
             sn1 = sn1 if (sn1 >= 0) else -sn1
             print("NO2-sn1 : {}".format(sn1))
 
@@ -580,6 +584,9 @@ if __name__ == '__main__':
             print(c4)
             sleep(1)
 
+
+
+
             neo.digitalWrite(pinNum[0], 1)
             # sleep(0.5)
             neo.digitalWrite(pinNum[1], 0)
@@ -596,10 +603,11 @@ if __name__ == '__main__':
             print(c5)
             sleep(1)
 
-            # 4 port 5port O3
-            sn2 = ((c4 - 391) - ((0.5) * (c5 - 390))) * 2.506
+            #4 port 5port O3
+            sn2 = ((c4 - 394) - ((0.5) * (c5 - 395))) / 0.276 #394 #395 #0.276
             sn2 = sn2 if (sn2 >= 0) else -sn2
             print("O3-sn2 : {}".format(sn2))
+
 
             neo.digitalWrite(pinNum[0], 0)
             # sleep(0.5)
@@ -633,10 +641,15 @@ if __name__ == '__main__':
             print(c7)
             sleep(1)
 
-            # 6 port 7port Co
-            sn3 = ((c6 - 347) - (0.44 * (c7 - 296))) * 0.0375
+
+            #6 port 7port Co
+            sn3 = ((c6 - 276) - (0.44 * (c7 - 280))) / 0.266 #276 # 280 #0.266
             sn3 = sn3 if (sn3 >= 0) else -sn3
             print("CO-sn3 : {}".format(sn3))
+
+
+
+
 
             neo.digitalWrite(pinNum[0], 0)
             # sleep(0.5)
@@ -668,50 +681,34 @@ if __name__ == '__main__':
             c9 = raw * scale
             # temp = (v - 500) / 10 + 45
             print(c9)
-            sleep(0.005)
+            sleep(1)
 
-            # 8 port 9port so2
-            sn4 = ((c8 - 345) - ((0.6) * (c9 - 255))) * 3.145
+            #8 port 9port so2
+            sn4 = ((c8 - 282) - ((0.6) * (c9 - 304))) / 0.296 #282 #304 #0.296
             sn4 = sn4 if (sn4 >= 0) else -sn4
             print("SO2-sn4 : {}".format(sn4))
 
-            # neo.digitalWrite(pinNum[0], 1)
-            # # sleep(0.5)
-            # neo.digitalWrite(pinNum[1], 1)
-            # # sleep(0.5)
-            # neo.digitalWrite(pinNum[2], 0)
-            # # sleep(0.5)
-            # neo.digitalWrite(pinNum[3], 1)
-            # # sleep(0.5)
-            # epoch_time = int(time())
-            # raw = int(open("/sys/bus/iio/devices/iio:device0/in_voltage0_raw").read())
-            # scale = float(open("/sys/bus/iio/devices/iio:device0/in_voltage_scale").read())
-            # x = (raw * scale)/1000
-            # hppcf = (240.0 * pow(x, 6) - 2491.3 * pow(x, 5) + 9448.7 * pow(x, 4) - 14840 * pow(x, 3) + 10684 * pow(x, 2) + 2211.8 * pow(x, 1) + 7.9623
-            # ugm3 = 0.518 + 0.00274 * hppcf
-            # print(ugm3)
-            # sleep(0.005)
 
 
             msg = ""
             if args.output_format == "csv":
-                msg = "realtime, {}, {}, {}, {}, {}, {}, {}".format(epoch_time, temp, sn1, sn2, sn3, sn4)
+                msg = "realtime, {}, {}, {}, {}, {}, {}, {}".format(epoch_time, temp, sn1, sn2, sn3, sn4, PM25)
 
             elif args.output_format == "json":
                 output = {'type': 'realtime',
                           'time': epoch_time,
                           'temp': temp,
-                          # 'SN1': SN1,
-                          # 'SN2': SN2,
-                          # 'SN3': SN3,
-                          # 'SN4': SN4,
-                          # 'PM25': PM25,
                           'SN1': sn1,
                           'SN2': sn2,
                           'SN3': sn3,
                           'SN4': sn4,
-                          'PM25': PM25
-                          }
+                          'PM25': PM25}
+                # 'temp': temp,
+                # 'SN1': SN1,
+                # 'SN2': SN2,
+                # 'SN3': SN3,
+                # 'SN4': SN4,
+                # 'PM25': PM25}
                 msg = json.dumps(output)
 
             try:
