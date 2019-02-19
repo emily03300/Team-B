@@ -675,6 +675,24 @@ if __name__ == '__main__':
             sn4 = sn4 if (sn4 >= 0) else -sn4
             print("SO2-sn4 : {}".format(sn4))
 
+            neo.digitalWrite(pinNum[0], 1)
+            # sleep(0.5)
+            neo.digitalWrite(pinNum[1], 1)
+            # sleep(0.5)
+            neo.digitalWrite(pinNum[2], 0)
+            # sleep(0.5)
+            neo.digitalWrite(pinNum[3], 1)
+            # sleep(0.5)
+            epoch_time = int(time())
+            raw = int(open("/sys/bus/iio/devices/iio:device0/in_voltage0_raw").read())
+            scale = float(open("/sys/bus/iio/devices/iio:device0/in_voltage_scale").read())
+            x = (raw * scale)/1000
+            hppcf = (240.0 * pow(x, 6) - 2491.3 * pow(x, 5) + 9448.7 * pow(x, 4) - 14840 * pow(x, 3) + 10684 * pow(x, 2) + 2211.8 * pow(x, 1) + 7.9623
+            ugm3 = 0.518 + 0.00274 * hppcf
+            print(ugm3)
+            sleep(0.005)
+
+
             msg = ""
             if args.output_format == "csv":
                 msg = "realtime, {}, {}, {}, {}, {}, {}, {}".format(epoch_time, temp, sn1, sn2, sn3, sn4)
