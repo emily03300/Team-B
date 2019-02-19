@@ -54,13 +54,13 @@ if __name__ == '__main__':
             for i in range(4):
                 neo.pinMode(pinNum[i], neo.OUTPUT)
 
-            neo.digitalWrite(pinNum[0], 1)
+            neo.digitalWrite(pinNum[0], 0)
             # sleep(0.5)
-            neo.digitalWrite(pinNum[1], 1)
+            neo.digitalWrite(pinNum[1], 0)
             # sleep(0.5)
-            neo.digitalWrite(pinNum[2], 1)
+            neo.digitalWrite(pinNum[2], 0)
             # sleep(0.5)
-            neo.digitalWrite(pinNum[3], 1)
+            neo.digitalWrite(pinNum[3], 0)
             # sleep(0.5)
             epoch_time =  int(time())
             raw = int(open("/sys/bus/iio/devices/iio:device0/in_voltage0_raw").read())
@@ -74,18 +74,18 @@ if __name__ == '__main__':
 
             # neo = Gpio()
 
-            S0 = 24  # pin to use
-            S1 = 25
-            S2 = 26
-            S3 = 27
-
-            pinNum = [S0, S1, S2, S3]
-
-            num = [0, 0, 0, 0]
-
-            # Blink example
-            for i in range(4):
-                neo.pinMode(pinNum[i], neo.OUTPUT)
+            # S0 = 24  # pin to use
+            # S1 = 25
+            # S2 = 26
+            # S3 = 27
+            #
+            # pinNum = [S0, S1, S2, S3]
+            #
+            # num = [0, 0, 0, 0]
+            #
+            # # Blink example
+            # for i in range(4):
+            #     neo.pinMode(pinNum[i], neo.OUTPUT)
 
             neo.digitalWrite(pinNum[0], 0)
             # sleep(0.5)
@@ -137,7 +137,7 @@ if __name__ == '__main__':
 
 
             # neo = Gpio()
-            #
+            #2
             # S0 = 24  # pin to use
             # S1 = 25
             # S2 = 26
