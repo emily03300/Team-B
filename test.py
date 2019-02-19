@@ -481,7 +481,7 @@ if __name__ == '__main__':
     server_thread.daemon = True
     server_thread.start()
 
-    while (1):
+    while True:
         for client_handler in server.active_client_handlers.copy():
             # Use a copy() to get the copy of the set, avoiding 'set change size during iteration' error
             # Create CSV message "'realtime', time, temp, SN1, SN2, SN3, SN4, PM25\n"
@@ -677,7 +677,7 @@ if __name__ == '__main__':
 
             msg = ""
             if args.output_format == "csv":
-                msg = "realtime, {}, {}, {}, {}, {}, {}, {}".format(epoch_time, temp, sn1, sn2, sn3, sn4, PM25)
+                msg = "realtime, {}, {}, {}, {}, {}, {}, {}".format(epoch_time, temp, sn1, sn2, sn3, sn4)
 
             elif args.output_format == "json":
                 output = {'type': 'realtime',
