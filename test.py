@@ -72,20 +72,6 @@ if __name__ == '__main__':
             sleep(1)
 
 
-            # neo = Gpio()
-
-            # S0 = 24  # pin to use
-            # S1 = 25
-            # S2 = 26
-            # S3 = 27
-            #
-            # pinNum = [S0, S1, S2, S3]
-            #
-            # num = [0, 0, 0, 0]
-            #
-            # # Blink example
-            # for i in range(4):
-            #     neo.pinMode(pinNum[i], neo.OUTPUT)
 
             neo.digitalWrite(pinNum[0], 0)
             # sleep(0.5)
@@ -104,20 +90,7 @@ if __name__ == '__main__':
             sleep(1)
 
 
-            # neo = Gpio()
 
-            S0 = 24  # pin to use
-            S1 = 25
-            S2 = 26
-            S3 = 27
-
-            pinNum = [S0, S1, S2, S3]
-
-            num = [0, 0, 0, 0]
-
-            # Blink example
-            for i in range(4):
-                neo.pinMode(pinNum[i], neo.OUTPUT)
 
             neo.digitalWrite(pinNum[0], 1)
             # sleep(0.5)
@@ -136,68 +109,108 @@ if __name__ == '__main__':
             sleep(1)
 
 
-            # neo = Gpio()
-            #2
-            # S0 = 24  # pin to use
-            # S1 = 25
-            # S2 = 26
-            # S3 = 27
-            #
-            # pinNum = [S0, S1, S2, S3]
-            #
-            # num = [0, 0, 0, 0]
-            #
-            # # Blink example
-            # for i in range(4):
-            #     neo.pinMode(pinNum[i], neo.OUTPUT)
-            #
-            # neo.digitalWrite(pinNum[0], 0)
-            # # sleep(0.5)
-            # neo.digitalWrite(pinNum[1], 0)
-            # # sleep(0.5)
-            # neo.digitalWrite(pinNum[2], 1)
-            # # sleep(0.5)
-            # neo.digitalWrite(pinNum[3], 0)
-            # # sleep(0.5)
-            # epoch_time = int(time())
-            # raw = int(open("/sys/bus/iio/devices/iio:device0/in_voltage0_raw").read())
-            # scale = float(open("/sys/bus/iio/devices/iio:device0/in_voltage_scale").read())
-            # v = raw * scale
+
+
+            neo.digitalWrite(pinNum[0], 0)
+            # sleep(0.5)
+            neo.digitalWrite(pinNum[1], 0)
+            # sleep(0.5)
+            neo.digitalWrite(pinNum[2], 1)
+            # sleep(0.5)
+            neo.digitalWrite(pinNum[3], 0)
+            # sleep(0.5)
+            epoch_time = int(time())
+            raw = int(open("/sys/bus/iio/devices/iio:device0/in_voltage0_raw").read())
+            scale = float(open("/sys/bus/iio/devices/iio:device0/in_voltage_scale").read())
+            c4 = raw * scale
             # temp = (v - 500) / 10 + 45
-            # print(temp)
-            # sleep(1)
-            #
-            #
-            # neo = Gpio()
-            #
-            # S0 = 24  # pin to use
-            # S1 = 25
-            # S2 = 26
-            # S3 = 27
-            #
-            # pinNum = [S0, S1, S2, S3]
-            #
-            # num = [0, 0, 0, 0]
-            #
-            # # Blink example
-            # for i in range(4):
-            #     neo.pinMode(pinNum[i], neo.OUTPUT)
-            #
-            # neo.digitalWrite(pinNum[0], 1)
-            # # sleep(0.5)
-            # neo.digitalWrite(pinNum[1], 0)
-            # # sleep(0.5)
-            # neo.digitalWrite(pinNum[2], 1)
-            # # sleep(0.5)
-            # neo.digitalWrite(pinNum[3], 0)
-            # # sleep(0.5)
-            # epoch_time = int(time())
-            # raw = int(open("/sys/bus/iio/devices/iio:device0/in_voltage0_raw").read())
-            # scale = float(open("/sys/bus/iio/devices/iio:device0/in_voltage_scale").read())
-            # v = raw * scale
+            print(c4)
+            sleep(1)
+
+
+
+
+            neo.digitalWrite(pinNum[0], 1)
+            # sleep(0.5)
+            neo.digitalWrite(pinNum[1], 0)
+            # sleep(0.5)
+            neo.digitalWrite(pinNum[2], 1)
+            # sleep(0.5)
+            neo.digitalWrite(pinNum[3], 0)
+            # sleep(0.5)
+            epoch_time = int(time())
+            raw = int(open("/sys/bus/iio/devices/iio:device0/in_voltage0_raw").read())
+            scale = float(open("/sys/bus/iio/devices/iio:device0/in_voltage_scale").read())
+            c5 = raw * scale
             # temp = (v - 500) / 10 + 45
-            # print(temp)
-            # sleep(1)
+            print(c5)
+            sleep(1)
+
+            neo.digitalWrite(pinNum[0], 0)
+            # sleep(0.5)
+            neo.digitalWrite(pinNum[1], 1)
+            # sleep(0.5)
+            neo.digitalWrite(pinNum[2], 1)
+            # sleep(0.5)
+            neo.digitalWrite(pinNum[3], 0)
+            # sleep(0.5)
+            epoch_time = int(time())
+            raw = int(open("/sys/bus/iio/devices/iio:device0/in_voltage0_raw").read())
+            scale = float(open("/sys/bus/iio/devices/iio:device0/in_voltage_scale").read())
+            c6 = raw * scale
+            # temp = (v - 500) / 10 + 45
+            print(c6)
+            sleep(1)
+
+            neo.digitalWrite(pinNum[0], 1)
+            # sleep(0.5)
+            neo.digitalWrite(pinNum[1], 1)
+            # sleep(0.5)
+            neo.digitalWrite(pinNum[2], 1)
+            # sleep(0.5)
+            neo.digitalWrite(pinNum[3], 0)
+            # sleep(0.5)
+            epoch_time = int(time())
+            raw = int(open("/sys/bus/iio/devices/iio:device0/in_voltage0_raw").read())
+            scale = float(open("/sys/bus/iio/devices/iio:device0/in_voltage_scale").read())
+            c7 = raw * scale
+            # temp = (v - 500) / 10 + 45
+            print(c7)
+            sleep(1)
+
+            neo.digitalWrite(pinNum[0], 0)
+            # sleep(0.5)
+            neo.digitalWrite(pinNum[1], 0)
+            # sleep(0.5)
+            neo.digitalWrite(pinNum[2], 0)
+            # sleep(0.5)
+            neo.digitalWrite(pinNum[3], 1)
+            # sleep(0.5)
+            epoch_time = int(time())
+            raw = int(open("/sys/bus/iio/devices/iio:device0/in_voltage0_raw").read())
+            scale = float(open("/sys/bus/iio/devices/iio:device0/in_voltage_scale").read())
+            c8 = raw * scale
+            # temp = (v - 500) / 10 + 45
+            print(c8)
+            sleep(1)
+
+            neo.digitalWrite(pinNum[0], 1)
+            # sleep(0.5)
+            neo.digitalWrite(pinNum[1], 0)
+            # sleep(0.5)
+            neo.digitalWrite(pinNum[2], 0)
+            # sleep(0.5)
+            neo.digitalWrite(pinNum[3], 1)
+            # sleep(0.5)
+            epoch_time = int(time())
+            raw = int(open("/sys/bus/iio/devices/iio:device0/in_voltage0_raw").read())
+            scale = float(open("/sys/bus/iio/devices/iio:device0/in_voltage_scale").read())
+            c9 = raw * scale
+            # temp = (v - 500) / 10 + 45
+            print(c9)
+            sleep(1)
+
+
 
             msg = ""
             if args.output_format == "csv":
