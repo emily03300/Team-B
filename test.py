@@ -454,7 +454,7 @@ if __name__ == '__main__':
             neo.digitalWrite(pinNum[1], 1)
             neo.digitalWrite(pinNum[2], 0)
             neo.digitalWrite(pinNum[3], 1)
-            sleep(0.05)
+            sleep(1)
 
             raw = int(open("/sys/bus/iio/devices/iio:device0/in_voltage0_raw").read())
             scale = float(open("/sys/bus/iio/devices/iio:device0/in_voltage_scale").read())
