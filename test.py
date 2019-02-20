@@ -14,6 +14,7 @@ import json
 from threading import Thread
 from time import sleep, time
 from neo import Gpio
+from pytz import timezone
 
 
 
@@ -56,8 +57,8 @@ if __name__ == '__main__':
 
     while True:
         for client_handler in server.active_client_handlers.copy():
-            #eastern = timezone('US/Eastern')
-            epochtime = datetime.now()
+            us_timezone = timezone('US/Pacific')
+            epochtime = datetime.now(us_timezone)
 
             neo.digitalWrite(pinNum[0], 0)
             neo.digitalWrite(pinNum[1], 0)
