@@ -15,7 +15,6 @@ from threading import Thread
 from time import sleep, time
 from neo import Gpio
 
-# from pytz import timezone
 
 
 if __name__ == '__main__':
