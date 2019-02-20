@@ -732,7 +732,6 @@ import json
 from random import uniform
 from threading import Thread
 from time import sleep, time
-from neo import Gpio
 
 if __name__ == '__main__':
     # Create option parser
@@ -758,13 +757,13 @@ if __name__ == '__main__':
             # Create CSV message "'realtime', time, temp, SN1, SN2, SN3, SN4, PM25\n"
 
             epoch_time = int(time())    # epoch time
-            SN1 = uniform(40, 50)       # random SN1 value
-            SN2 = uniform(60, 70)       # random SN2 value
-            SN3 = uniform(80, 90)       # random SN3 value
-            SN4 = uniform(100, 110)     # random SN4 value
+            # SN1 = uniform(40, 50)       # random SN1 value
+            # SN2 = uniform(60, 70)       # random SN2 value
+            # SN3 = uniform(80, 90)       # random SN3 value
+            # SN4 = uniform(100, 110)     # random SN4 value
             PM25 = uniform(120, 130)    # random PM25 value
 
-
+            from neo import Gpio
             neo = Gpio()
 
             S0 = 24  # pin to use
@@ -780,137 +779,191 @@ if __name__ == '__main__':
             for i in range(4):
                 neo.pinMode(pinNum[i], neo.OUTPUT)
 
-            #Temperature sensor
             neo.digitalWrite(pinNum[0], 0)
+            # sleep(0.5)
             neo.digitalWrite(pinNum[1], 0)
+            # sleep(0.5)
             neo.digitalWrite(pinNum[2], 0)
+            # sleep(0.5)
             neo.digitalWrite(pinNum[3], 0)
-            sleep(0.05)
-
-
-            epoch_time = time()
+            # sleep(0.5)
+            epoch_time =  int(time())
             raw = int(open("/sys/bus/iio/devices/iio:device0/in_voltage0_raw").read())
             scale = float(open("/sys/bus/iio/devices/iio:device0/in_voltage_scale").read())
-            c0 = raw * scale
+            v = raw * scale
+            # temp = (v - 500)/10 - 26
+            temp = (v - 500) / 10 + 45
+            print(temp)
+            sleep(1)
 
-            temp = (c0 - 550) / 10
 
 
-            #Alphasense SN1
-            neo.digitalWrite(pinNum[0], 0)
-            neo.digitalWrite(pinNum[1], 1)
-            neo.digitalWrite(pinNum[2], 0)
-            neo.digitalWrite(pinNum[3], 0)
-            sleep(0.05)
-
+            neo.digitalWrite(pinNum[0], 0)#1
+            # sleep(0.5)
+            neo.digitalWrite(pinNum[1], 1)#2
+            # sleep(0.5)
+            neo.digitalWrite(pinNum[2], 0)#4
+            # sleep(0.5)
+            neo.digitalWrite(pinNum[3], 0)#8
+            # sleep(0.5)
+            epoch_time = int(time())
             raw = int(open("/sys/bus/iio/devices/iio:device0/in_voltage0_raw").read())
             scale = float(open("/sys/bus/iio/devices/iio:device0/in_voltage_scale").read())
             c2 = raw * scale
+            # temp = (v - 500) / 10 + 45
+            print(c2)
+            sleep(1)
 
-            neo.digitalWrite(pinNum[0], 1)
-            neo.digitalWrite(pinNum[1], 1)
-            neo.digitalWrite(pinNum[2], 0)
-            neo.digitalWrite(pinNum[3], 0)
-            sleep(0.05)
 
+
+
+            neo.digitalWrite(pinNum[0], 1)#1
+            # sleep(0.5)
+            neo.digitalWrite(pinNum[1], 1)#2
+            # sleep(0.5)
+            neo.digitalWrite(pinNum[2], 0)#4
+            # sleep(0.5)
+            neo.digitalWrite(pinNum[3], 0)#8
+            # sleep(0.5)
+            epoch_time = int(time())
             raw = int(open("/sys/bus/iio/devices/iio:device0/in_voltage0_raw").read())
             scale = float(open("/sys/bus/iio/devices/iio:device0/in_voltage_scale").read())
             c3 = raw * scale
+            # sn1 = (v - 500) / 10 + 45
+            print(c3)
+            sleep(1)
 
-            SN1 = ((c2 - 286) - 0.75*(c3 - 292))/0.258
+            #2 port 3port No2
+            SN1 = ((c2 - 287) - ((0.75) * (c3 - 280))) / 0.212 #287 #280 #0.212
+            SN1 = SN1 if (SN1 >= 0) else -SN1
+            print("NO2-sn1 : {}".format(SN1))
 
-            #Alphasense SN2
             neo.digitalWrite(pinNum[0], 0)
+            # sleep(0.5)
             neo.digitalWrite(pinNum[1], 0)
+            # sleep(0.5)
             neo.digitalWrite(pinNum[2], 1)
+            # sleep(0.5)
             neo.digitalWrite(pinNum[3], 0)
-            sleep(0.05)
-
+            # sleep(0.5)
+            epoch_time = int(time())
             raw = int(open("/sys/bus/iio/devices/iio:device0/in_voltage0_raw").read())
             scale = float(open("/sys/bus/iio/devices/iio:device0/in_voltage_scale").read())
             c4 = raw * scale
+            # temp = (v - 500) / 10 + 45
+            print(c4)
+            sleep(1)
+
+
+
 
             neo.digitalWrite(pinNum[0], 1)
+            # sleep(0.5)
             neo.digitalWrite(pinNum[1], 0)
+            # sleep(0.5)
             neo.digitalWrite(pinNum[2], 1)
+            # sleep(0.5)
             neo.digitalWrite(pinNum[3], 0)
-            sleep(0.05)
-
+            # sleep(0.5)
+            epoch_time = int(time())
             raw = int(open("/sys/bus/iio/devices/iio:device0/in_voltage0_raw").read())
             scale = float(open("/sys/bus/iio/devices/iio:device0/in_voltage_scale").read())
             c5 = raw * scale
+            # temp = (v - 500) / 10 + 45
+            print(c5)
+            sleep(1)
 
-            SN2 = ((c4-417)- 0.5*(c5-402))/0.393
+            #4 port 5port O3
+            SN2 = ((c4 - 394) - ((0.5) * (c5 - 395))) / 0.276 #394 #395 #0.276
+            SN2 = SN2 if (SN2 >= 0) else -SN2
+            print("O3-sn2 : {}".format(SN2))
 
-            #Alphasense SN3
+
             neo.digitalWrite(pinNum[0], 0)
+            # sleep(0.5)
             neo.digitalWrite(pinNum[1], 1)
+            # sleep(0.5)
             neo.digitalWrite(pinNum[2], 1)
+            # sleep(0.5)
             neo.digitalWrite(pinNum[3], 0)
-            sleep(0.05)
-
+            # sleep(0.5)
+            epoch_time = int(time())
             raw = int(open("/sys/bus/iio/devices/iio:device0/in_voltage0_raw").read())
             scale = float(open("/sys/bus/iio/devices/iio:device0/in_voltage_scale").read())
             c6 = raw * scale
+            # temp = (v - 500) / 10 + 45
+            print(c6)
+            sleep(1)
 
             neo.digitalWrite(pinNum[0], 1)
+            # sleep(0.5)
             neo.digitalWrite(pinNum[1], 1)
+            # sleep(0.5)
             neo.digitalWrite(pinNum[2], 1)
+            # sleep(0.5)
             neo.digitalWrite(pinNum[3], 0)
-            sleep(0.05)
-
+            # sleep(0.5)
+            epoch_time = int(time())
             raw = int(open("/sys/bus/iio/devices/iio:device0/in_voltage0_raw").read())
             scale = float(open("/sys/bus/iio/devices/iio:device0/in_voltage_scale").read())
             c7 = raw * scale
+            # temp = (v - 500) / 10 + 45
+            print(c7)
+            sleep(1)
 
-            SN3 = ((c6 -265)-0.44*(c7-281))/0.292
+
+            #6 port 7port Co
+            SN3 = ((c6 - 276) - (0.44 * (c7 - 280))) / 0.266 #276 # 280 #0.266
+            SN3 = SN3 if (SN3 >= 0) else -SN3
+            print("CO-sn3 : {}".format(SN3))
 
 
-            #Alphasense SN4
+
+
+
             neo.digitalWrite(pinNum[0], 0)
+            # sleep(0.5)
             neo.digitalWrite(pinNum[1], 0)
+            # sleep(0.5)
             neo.digitalWrite(pinNum[2], 0)
+            # sleep(0.5)
             neo.digitalWrite(pinNum[3], 1)
-            sleep(0.05)
-
+            # sleep(0.5)
+            epoch_time = int(time())
             raw = int(open("/sys/bus/iio/devices/iio:device0/in_voltage0_raw").read())
             scale = float(open("/sys/bus/iio/devices/iio:device0/in_voltage_scale").read())
             c8 = raw * scale
+            # temp = (v - 500) / 10 + 45
+            print(c8)
+            sleep(1)
 
             neo.digitalWrite(pinNum[0], 1)
+            # sleep(0.5)
             neo.digitalWrite(pinNum[1], 0)
+            # sleep(0.5)
             neo.digitalWrite(pinNum[2], 0)
+            # sleep(0.5)
             neo.digitalWrite(pinNum[3], 1)
-            sleep(0.05)
-
+            # sleep(0.5)
+            epoch_time = int(time())
             raw = int(open("/sys/bus/iio/devices/iio:device0/in_voltage0_raw").read())
             scale = float(open("/sys/bus/iio/devices/iio:device0/in_voltage_scale").read())
             c9 = raw * scale
+            # temp = (v - 500) / 10 + 45
+            print(c9)
+            sleep(1)
 
-            SN4 = ((c8 - 275)-0.6*(c9-295))
-
-
-            #PM2.5
-            neo.digitalWrite(pinNum[0], 1)
-            neo.digitalWrite(pinNum[1], 0)
-            neo.digitalWrite(pinNum[2], 1)
-            neo.digitalWrite(pinNum[3], 1)
-            sleep(0.05)
-
-            raw = int(open("/sys/bus/iio/devices/iio:device0/in_voltage0_raw").read())
-            scale = float(open("/sys/bus/iio/devices/iio:device0/in_voltage_scale").read())
-            c11= (raw * scale) / 1000
-
-            hppcf = (240.0 * pow(c11, 6) - 2491.3 * pow(c11, 5) + 9448.7 * pow(c11, 4) - 14840.0 * pow(c11, 3) + 10684.0 * pow(c11, 2) + 2211.8 * (c11) + 7.9623)
-            PM25 = 0.518 + .00274 * hppcf
-
-
+            #8 port 9port so2
+            SN4 = ((c8 - 282) - ((0.6) * (c9 - 304))) / 0.296 #282 #304 #0.296
+            SN4 = SN4 if (SN4 >= 0) else -SN4
+            print("SO2-sn4 : {}".format(SN4))
 
 
 
             msg = ""
             if args.output_format == "csv":
                 msg = "realtime, {}, {}, {}, {}, {}, {}, {}".format(epoch_time, temp, SN1, SN2, SN3, SN4, PM25)
+
             elif args.output_format == "json":
                 output = {'type': 'realtime',
                           'time': epoch_time,
@@ -921,6 +974,7 @@ if __name__ == '__main__':
                           'SN4': SN4,
                           'PM25': PM25}
                 msg = json.dumps(output)
+
             try:
                 client_handler.send((msg + '\n').encode('ascii'))
             except Exception as e:
@@ -928,4 +982,4 @@ if __name__ == '__main__':
                 client_handler.handle_close()
 
             # Sleep for 3 seconds
-        sleep(2.5)
+        sleep(3)
