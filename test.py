@@ -1,8 +1,6 @@
-
 import argparse
 from neo import Gpio  # import Gpio library
 from time import sleep  # import sleep to wait for blinks
-
 
 from btserver import BTServer
 from bterror import BTError
@@ -56,7 +54,7 @@ if __name__ == '__main__':
 
     while True:
         for client_handler in server.active_client_handlers.copy():
-            epochtime = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+            epochtime = datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S')
             neo.digitalWrite(pinNum[0], 0)
             neo.digitalWrite(pinNum[1], 0)
             neo.digitalWrite(pinNum[2], 0)
