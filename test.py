@@ -89,7 +89,7 @@ if __name__ == '__main__':
             scale = float(open("/sys/bus/iio/devices/iio:device0/in_voltage_scale").read())
             c3 = raw * scale
 
-            SN1 = ((c2 - 286) - 0.75 * (c3 - 292)) / 0.258
+            SN1 = ((c2 - 287) - 0.75 * (c3 - 280)) / 0.258
             print("NO2: {} ".format(SN1))
 
             # Alphasense SN2
@@ -113,7 +113,7 @@ if __name__ == '__main__':
             scale = float(open("/sys/bus/iio/devices/iio:device0/in_voltage_scale").read())
             c5 = raw * scale
 
-            SN2 = ((c4 - 417) - 0.5 * (c5 - 402)) / 0.393
+            SN2 = ((c4 - 394) - 0.5 * (c5 - 395)) / 0.393
             print("O3: {} ".format(SN2))
 
             # Alphasense SN3
@@ -137,7 +137,7 @@ if __name__ == '__main__':
             scale = float(open("/sys/bus/iio/devices/iio:device0/in_voltage_scale").read())
             c7 = raw * scale
 
-            SN3 = ((c6 - 265) - 0.44 * (c7 - 281)) / 0.292
+            SN3 = ((c6 - 276) - 0.44 * (c7 - 280)) / 0.292
             print("CO: {} ".format(SN3))
 
             # Alphasense SN4
@@ -161,7 +161,7 @@ if __name__ == '__main__':
             scale = float(open("/sys/bus/iio/devices/iio:device0/in_voltage_scale").read())
             c9 = raw * scale
 
-            SN4 = ((c8 - 275) - 0.6 * (c9 - 295)) /0.3
+            SN4 = ((c8 - 282) - 0.6 * (c9 - 304)) /0.3
             print("SO2: {} ".format(SN4))
 
             # PM2.5
