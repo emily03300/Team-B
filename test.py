@@ -15,6 +15,9 @@ from threading import Thread
 from time import sleep, time
 from neo import Gpio
 
+import pytz
+
+
 if __name__ == '__main__':
     # Create option parser
     usage = "usage: %prog [options] arg"
@@ -54,7 +57,8 @@ if __name__ == '__main__':
 
     while True:
         for client_handler in server.active_client_handlers.copy():
-            epochtime = datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S')
+            epochtime = datetime.now(pytz.timezone('US/Pacific')).strftime('%Y-%m-%d %H:%M:%S')
+
             neo.digitalWrite(pinNum[0], 0)
             neo.digitalWrite(pinNum[1], 0)
             neo.digitalWrite(pinNum[2], 0)
