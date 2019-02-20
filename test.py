@@ -8,7 +8,7 @@ from btserver import BTServer
 from bterror import BTError
 
 #import client_handler
-import datetime
+from datetime import datetime
 import argparse
 import asyncore
 import json
@@ -35,7 +35,7 @@ if __name__ == '__main__':
     server_thread.daemon = True
     server_thread.start()
 
-    epochtime = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S') #(int)(time())
+    epochtime = datetime.now().strftime('%Y-%m-%d %H:%M:%S') #(int)(time())
 
     neo =Gpio()
 
