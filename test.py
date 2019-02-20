@@ -566,11 +566,10 @@ if __name__ == '__main__':
 
 
 
-
-
-
-
             #Alphasense SN1
+            for i in range(4):
+                neo.pinMode(pinNum[i], neo.OUTPUT)
+
             neo.digitalWrite(pinNum[0], 0)
             neo.digitalWrite(pinNum[1], 1)
             neo.digitalWrite(pinNum[2], 0)
@@ -600,6 +599,8 @@ if __name__ == '__main__':
 
 
             #Alphasense SN2
+            for i in range(4):
+                neo.pinMode(pinNum[i], neo.OUTPUT)
             neo.digitalWrite(pinNum[0], 0)
             neo.digitalWrite(pinNum[1], 0)
             neo.digitalWrite(pinNum[2], 1)
@@ -613,7 +614,8 @@ if __name__ == '__main__':
 
 
 
-
+            for i in range(4):
+                neo.pinMode(pinNum[i], neo.OUTPUT)
             neo.digitalWrite(pinNum[0], 1)
             neo.digitalWrite(pinNum[1], 0)
             neo.digitalWrite(pinNum[2], 1)
@@ -627,6 +629,8 @@ if __name__ == '__main__':
             SN2 = ((c4-417)- 0.5*(c5-402))/0.393
 
             #Alphasense SN3
+            for i in range(4):
+                neo.pinMode(pinNum[i], neo.OUTPUT)
             neo.digitalWrite(pinNum[0], 0)
             neo.digitalWrite(pinNum[1], 1)
             neo.digitalWrite(pinNum[2], 1)
@@ -637,6 +641,8 @@ if __name__ == '__main__':
             scale = float(open("/sys/bus/iio/devices/iio:device0/in_voltage_scale").read())
             c6 = raw * scale
 
+            for i in range(4):
+                neo.pinMode(pinNum[i], neo.OUTPUT)
             neo.digitalWrite(pinNum[0], 1)
             neo.digitalWrite(pinNum[1], 1)
             neo.digitalWrite(pinNum[2], 1)
@@ -651,6 +657,8 @@ if __name__ == '__main__':
 
 
             #Alphasense SN4
+            for i in range(4):
+                neo.pinMode(pinNum[i], neo.OUTPUT)
             neo.digitalWrite(pinNum[0], 0)
             neo.digitalWrite(pinNum[1], 0)
             neo.digitalWrite(pinNum[2], 0)
@@ -661,6 +669,8 @@ if __name__ == '__main__':
             scale = float(open("/sys/bus/iio/devices/iio:device0/in_voltage_scale").read())
             c8 = raw * scale
 
+            for i in range(4):
+                neo.pinMode(pinNum[i], neo.OUTPUT)
             neo.digitalWrite(pinNum[0], 1)
             neo.digitalWrite(pinNum[1], 0)
             neo.digitalWrite(pinNum[2], 0)
@@ -675,6 +685,8 @@ if __name__ == '__main__':
 
 
             #PM2.5
+            for i in range(4):
+                neo.pinMode(pinNum[i], neo.OUTPUT)
             neo.digitalWrite(pinNum[0], 1)
             neo.digitalWrite(pinNum[1], 1)
             neo.digitalWrite(pinNum[2], 0)
