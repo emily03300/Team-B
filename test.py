@@ -798,60 +798,27 @@
 #
 
 
-from btserver import BTServer
-from bterror import BTError
-
-import argparse
-import asyncore
-import json
-import datetime
-from random import uniform
-from threading import Thread
-from time import sleep, time
-from neo import Gpio
 from neo import Gpio  # import Gpio library
 from time import sleep  # import sleep to wait for blinks
 
+neo =Gpio()
 
+S0 = 24 # pin to use
+S1 = 25
+S2 = 26
+S3 = 27
 
-if __name__ == '__main__':
-    # Create option parser
-    usage = "usage: %prog [options] arg"
-    parser = argparse.ArgumentParser()
-    parser.add_argument("--output", dest="output_format", default="csv", help="set output format: csv, json")
+pinNum = [S0, S1, S2, S3]
 
-    args = parser.parse_args()
+num = [0,0,0,0]
 
-    # Create a BT server
-    uuid = "94f39d29-7d6d-437d-973b-fba39e49d4ee"
-    service_name = "GossipBTServer"
-    server = BTServer(uuid, service_name)
+# Blink example
+for i in range(4):
+    neo.pinMode(pinNum[i], neo.OUTPUT)
 
-    # Create the server thread and run it
-    server_thread = Thread(target=asyncore.loop, name="Gossip BT Server Thread")
-    server_thread.daemon = True
-    server_thread.start()
 
 
 while True:
-
-    neo = Gpio()
-    epoch_time = int(time())
-
-    S0 = 24  # pin to use
-    S1 = 25
-    S2 = 26
-    S3 = 27
-
-    pinNum = [S0, S1, S2, S3]
-
-    num = [0, 0, 0, 0]
-
-    # Blink example
-    for i in range(4):
-        neo.pinMode(pinNum[i], neo.OUTPUT)
-
-
     neo.digitalWrite(pinNum[0], 0)
     neo.digitalWrite(pinNum[1], 0)
     neo.digitalWrite(pinNum[2], 0)
@@ -861,6 +828,7 @@ while True:
     scale = float(open("/sys/bus/iio/devices/iio:device0/in_voltage_scale").read())
     v = raw * scale
     t = (v - 590)/10
+
     temp = (t * 1.8) + 32
     print(temp)
 
