@@ -179,7 +179,7 @@ if __name__ == '__main__':
         print("PM25: {} ".format(PM25))
         print("\n")
 
-        #msg = ""
+        # msg = ""
 
         if args.output_format == "cvs":
             output = {'type': 'realtime',
@@ -193,11 +193,11 @@ if __name__ == '__main__':
             msg = json.dumps(output)
         elif args.output_format == "csv":
              msg = "realtime, {}, {}, {}, {}, {}, {}, {}".format(epochtime, temp, SN1, SN2, SN3, SN4, PM25)
-        # try:
-        #     client_handler.send((msg + '\n').encode('ascii'))
-        # except Exception as e:
-        #     BTError.print_error(handler=client_handler, error=BTError.ERR_WRITE, error_message=repr(e))
-        #     client_handler.handle_close()
+        try:
+            client_handler.send((msg + '\n').encode('ascii'))
+        except Exception as e:
+            BTError.print_error(handler=client_handler, error=BTError.ERR_WRITE, error_message=repr(e))
+            client_handler.handle_close()
 
         # Sleep for 5 seconds
         sleep(5)
