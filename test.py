@@ -833,16 +833,10 @@ if __name__ == '__main__':
     server_thread.start()
 
 
-
-
-
-
-
-
-
 while True:
 
     neo = Gpio()
+    epoch_time = int(time())
 
     S0 = 24  # pin to use
     S1 = 25
@@ -867,7 +861,6 @@ while True:
     scale = float(open("/sys/bus/iio/devices/iio:device0/in_voltage_scale").read())
     v = raw * scale
     t = (v - 590)/10
-
     temp = (t * 1.8) + 32
     print(temp)
 
