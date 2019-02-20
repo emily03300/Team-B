@@ -15,7 +15,7 @@ from threading import Thread
 from time import sleep, time
 from neo import Gpio
 
-import pytz
+from pytz import timezone
 
 
 if __name__ == '__main__':
@@ -57,7 +57,8 @@ if __name__ == '__main__':
 
     while True:
         for client_handler in server.active_client_handlers.copy():
-            epochtime = datetime.now(pytz.timezone('US/Pacific')).strftime('%Y-%m-%d %H:%M:%S')
+            eastern = timezone('US/Eastern')
+            epochtime = datetime.now(eastern).strftime('%Y-%m-%d %H:%M:%S')
 
             neo.digitalWrite(pinNum[0], 0)
             neo.digitalWrite(pinNum[1], 0)
