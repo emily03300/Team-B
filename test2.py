@@ -27,3 +27,4 @@ while True:
     v = raw * scale
     t = (v-590)/10
     print(t)
+    sleep(1)
