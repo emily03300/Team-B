@@ -181,7 +181,7 @@ if __name__ == '__main__':
 
         #msg = ""
 
-        if args.output_format == "json":
+        if args.output_format == "cvs":
             output = {'type': 'realtime',
                       'time': epochtime,
                       'temp': temp,
