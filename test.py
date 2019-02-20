@@ -815,16 +815,7 @@ num = [0,0,0,0]
 # Blink example
 for i in range(4):
     neo.pinMode(pinNum[i], neo.OUTPUT)
-    neo.digitalWrite(pinNum[0], 0)
-    neo.digitalWrite(pinNum[1], 0)
-    neo.digitalWrite(pinNum[2], 0)
-    neo.digitalWrite(pinNum[3], 0)
-    sleep(1)
-    raw = int(open("/sys/bus/iio/devices/iio:device0/in_voltage0_raw").read())
-    scale = float(open("/sys/bus/iio/devices/iio:device0/in_voltage_scale").read())
-    v = raw * scale
-    temp = (v - 500) / 10 - 6
-    temp = (temp * 1.8) + 32
+
 
 
 while True:
@@ -836,9 +827,9 @@ while True:
     raw = int(open("/sys/bus/iio/devices/iio:device0/in_voltage0_raw").read())
     scale = float(open("/sys/bus/iio/devices/iio:device0/in_voltage_scale").read())
     v = raw * scale
-    temp = (v - 500)/10 -6
+    temp = (v - 500)/10 - 6
     temp = (temp * 1.8) + 32
-    print("temp: {} ".format(temp))
+    print("temp: {} F".format(temp))
 
     # Alphasense SN1
     neo.digitalWrite(pinNum[0], 0)
