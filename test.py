@@ -717,6 +717,7 @@
 #         sleep(5)
 
 
+
 from btserver import BTServer
 from bterror import BTError
 
@@ -752,19 +753,12 @@ if __name__ == '__main__':
             # Create CSV message "'realtime', time, temp, SN1, SN2, SN3, SN4, PM25\n"
 
             epoch_time = int(time())    # epoch time
-            # SN1 = uniform(40, 50)       # random SN1 value
-            # SN2 = uniform(60, 70)       # random SN2 value
-            # SN3 = uniform(80, 90)       # random SN3 value
-            # SN4 = uniform(100, 110)     # random SN4 value
-            # PM25 = uniform(120, 130)    # random PM25 value
-
-
             neo = Gpio()
 
-            S0 = 24  # pin to use
-            S1 = 25
-            S2 = 26
-            S3 = 27
+            S0 = 2  # pin to use
+            S1 = 3
+            S2 = 4
+            S3 = 5
 
             pinNum = [S0, S1, S2, S3]
 
@@ -774,6 +768,7 @@ if __name__ == '__main__':
             for i in range(4):
                 neo.pinMode(pinNum[i], neo.OUTPUT)
 
+            epoch_time = time()
             #Temperature sensor
             neo.digitalWrite(pinNum[0], 0)
             neo.digitalWrite(pinNum[1], 0)
@@ -787,7 +782,7 @@ if __name__ == '__main__':
             scale = float(open("/sys/bus/iio/devices/iio:device0/in_voltage_scale").read())
             c0 = raw * scale
 
-            temp = (c0 - 550) / 10
+            temp = (c0 - 590) / 10
 
 
             #Alphasense SN1
@@ -900,8 +895,6 @@ if __name__ == '__main__':
 
 
 
-
-
             msg = ""
             if args.output_format == "csv":
                 msg = "realtime, {}, {}, {}, {}, {}, {}, {}".format(epoch_time, temp, SN1, SN2, SN3, SN4, PM25)
@@ -909,11 +902,11 @@ if __name__ == '__main__':
                 output = {'type': 'realtime',
                           'time': epoch_time,
                           'temp': temp,
-                          'SN1': SN1,
-                          'SN2': SN2,
-                          'SN3': SN3,
-                          'SN4': SN4,
-                          'PM25': PM25}
+                          'NO2_SN1': SN1,
+                          'O3_SN2': SN2,
+                          'CO_SN3': SN3,
+                          'SO2_SN4': SN4,
+                          'PM2.5': PM25}
                 msg = json.dumps(output)
             try:
                 client_handler.send((msg + '\n').encode('ascii'))
