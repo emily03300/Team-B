@@ -5,14 +5,13 @@
 
 
 from btserver import BTServer
-from bterror import BTError
+# from bterror import BTError
 
 # import client_handler
 import datetime
 import argparse
 import asyncore
 import json
-# import datetime
 # from random import uniform
 from threading import Thread
 from time import sleep, time
