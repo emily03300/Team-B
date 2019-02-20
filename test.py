@@ -35,7 +35,7 @@ if __name__ == '__main__':
     server_thread.daemon = True
     server_thread.start()
 
-    epochtime = ""+ datetime.datetime.now() #(int)(time())
+    epochtime = datetime.datetime.now() #(int)(time())
 
     neo =Gpio()
 
