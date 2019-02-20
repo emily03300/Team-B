@@ -8,7 +8,6 @@ from btserver import BTServer
 # from bterror import BTError
 
 # import client_handler
-import datetime
 import argparse
 import asyncore
 import json
@@ -35,6 +34,7 @@ if __name__ == '__main__':
     server_thread.daemon = True
     server_thread.start()
 
+    epochtime = (int)(time())
 
     neo =Gpio()
 
@@ -181,10 +181,10 @@ if __name__ == '__main__':
 
         msg = ""
         if args.output_format == "csv":
-            msg = "realtime, {}, {}, {}, {}, {}, {}, {}".format(datetime, temp, SN1, SN2, SN3, SN4, PM25)
+            msg = "realtime, {}, {}, {}, {}, {}, {}, {}".format(epochtime, temp, SN1, SN2, SN3, SN4, PM25)
         elif args.output_format == "json":
             output = {'type': 'realtime',
-                      'time': datetime,
+                      'time': epochtime,
                       'temp': temp,
                       'NO2_SN1': SN1,
                       'O3_SN2': SN2,
