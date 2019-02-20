@@ -14,7 +14,7 @@ import json
 from threading import Thread
 from time import sleep, time
 from neo import Gpio
-from pytz import timezone
+from pytz import all_timezones
 
 
 
