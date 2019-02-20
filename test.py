@@ -824,7 +824,7 @@ while True:
     neo.digitalWrite(pinNum[2], 0)
     neo.digitalWrite(pinNum[3], 0)
     sleep(1)
-    raw = int(open("/sys/bus/iio/devices/iio:device0/in_voltage0_raw").read())
+    raw = int(open("/sys/bus/iio/devices/iio:device0/in_voltage1_raw").read())
     scale = float(open("/sys/bus/iio/devices/iio:device0/in_voltage_scale").read())
     v = raw * scale
     t = (v - 590)/10
@@ -839,7 +839,7 @@ while True:
     neo.digitalWrite(pinNum[3], 0)
     sleep(0.05)
 
-    raw = int(open("/sys/bus/iio/devices/iio:device0/in_voltage0_raw").read())
+    raw = int(open("/sys/bus/iio/devices/iio:device0/in_voltage1_raw").read())
     scale = float(open("/sys/bus/iio/devices/iio:device0/in_voltage_scale").read())
     c2 = raw * scale
 
@@ -849,7 +849,7 @@ while True:
     neo.digitalWrite(pinNum[3], 0)
     sleep(0.05)
 
-    raw = int(open("/sys/bus/iio/devices/iio:device0/in_voltage0_raw").read())
+    raw = int(open("/sys/bus/iio/devices/iio:device0/in_voltage1_raw").read())
     scale = float(open("/sys/bus/iio/devices/iio:device0/in_voltage_scale").read())
     c3 = raw * scale
 
@@ -863,7 +863,7 @@ while True:
     neo.digitalWrite(pinNum[3], 0)
     sleep(0.05)
 
-    raw = int(open("/sys/bus/iio/devices/iio:device0/in_voltage0_raw").read())
+    raw = int(open("/sys/bus/iio/devices/iio:device0/in_voltage1_raw").read())
     scale = float(open("/sys/bus/iio/devices/iio:device0/in_voltage_scale").read())
     c4 = raw * scale
 
@@ -873,7 +873,7 @@ while True:
     neo.digitalWrite(pinNum[3], 0)
     sleep(0.05)
 
-    raw = int(open("/sys/bus/iio/devices/iio:device0/in_voltage0_raw").read())
+    raw = int(open("/sys/bus/iio/devices/iio:device0/in_voltage1_raw").read())
     scale = float(open("/sys/bus/iio/devices/iio:device0/in_voltage_scale").read())
     c5 = raw * scale
 
@@ -888,7 +888,7 @@ while True:
     neo.digitalWrite(pinNum[3], 0)
     sleep(0.05)
 
-    raw = int(open("/sys/bus/iio/devices/iio:device0/in_voltage0_raw").read())
+    raw = int(open("/sys/bus/iio/devices/iio:device0/in_voltage1_raw").read())
     scale = float(open("/sys/bus/iio/devices/iio:device0/in_voltage_scale").read())
     c6 = raw * scale
 
@@ -898,7 +898,7 @@ while True:
     neo.digitalWrite(pinNum[3], 0)
     sleep(0.05)
 
-    raw = int(open("/sys/bus/iio/devices/iio:device0/in_voltage0_raw").read())
+    raw = int(open("/sys/bus/iio/devices/iio:device0/in_voltage1_raw").read())
     scale = float(open("/sys/bus/iio/devices/iio:device0/in_voltage_scale").read())
     c7 = raw * scale
 
@@ -911,7 +911,7 @@ while True:
     neo.digitalWrite(pinNum[3], 1)
     sleep(0.05)
 
-    raw = int(open("/sys/bus/iio/devices/iio:device0/in_voltage0_raw").read())
+    raw = int(open("/sys/bus/iio/devices/iio:device0/in_voltage1_raw").read())
     scale = float(open("/sys/bus/iio/devices/iio:device0/in_voltage_scale").read())
     c8 = raw * scale
 
@@ -921,7 +921,7 @@ while True:
     neo.digitalWrite(pinNum[3], 1)
     sleep(0.05)
 
-    raw = int(open("/sys/bus/iio/devices/iio:device0/in_voltage0_raw").read())
+    raw = int(open("/sys/bus/iio/devices/iio:device0/in_voltage1_raw").read())
     scale = float(open("/sys/bus/iio/devices/iio:device0/in_voltage_scale").read())
     c9 = raw * scale
 
@@ -934,7 +934,7 @@ while True:
     neo.digitalWrite(pinNum[3], 1)
     sleep(0.05)
 
-    raw = int(open("/sys/bus/iio/devices/iio:device0/in_voltage0_raw").read())
+    raw = int(open("/sys/bus/iio/devices/iio:device0/in_voltage1_raw").read())
     scale = float(open("/sys/bus/iio/devices/iio:device0/in_voltage_scale").read())
     c11 = (raw * scale) / 1000
 
