@@ -798,8 +798,40 @@
 #
 
 
+from btserver import BTServer
+from bterror import BTError
+
+import argparse
+import asyncore
+import json
+import datetime
+from random import uniform
+from threading import Thread
+from time import sleep, time
+from neo import Gpio
+
+
 from neo import Gpio  # import Gpio library
 from time import sleep  # import sleep to wait for blinks
+
+
+if __name__ == '__main__':
+# Create option parser
+usage = "usage: %prog [options] arg"
+parser = argparse.ArgumentParser()
+parser.add_argument("--output", dest="output_format", default="csv", help="set output format: csv, json")
+
+args = parser.parse_args()
+
+# Create a BT server
+uuid = "94f39d29-7d6d-437d-973b-fba39e49d4ee"
+service_name = "GossipBTServer"
+server = BTServer(uuid, service_name)
+
+# Create the server thread and run it
+server_thread = Thread(target=asyncore.loop, name="Gossip BT Server Thread")
+server_thread.daemon = True
+server_thread.start()
 
 neo =Gpio()
 
