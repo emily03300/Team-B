@@ -179,7 +179,9 @@ if __name__ == '__main__':
                 c11, 2) + 2211.8 * c11 + 7.9623)
             PM25 = 0.518 + .00274 * hppcf
             print("PM25: {} ".format(PM25))
+            print("date: {}".format(datetime))
             print("\n")
+
 
             # msg = ""
 
