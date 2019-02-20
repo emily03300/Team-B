@@ -809,6 +809,10 @@ from random import uniform
 from threading import Thread
 from time import sleep, time
 from neo import Gpio
+from neo import Gpio  # import Gpio library
+from time import sleep  # import sleep to wait for blinks
+
+
 
 if __name__ == '__main__':
     # Create option parser
@@ -831,8 +835,7 @@ if __name__ == '__main__':
 
 
 
-from neo import Gpio  # import Gpio library
-from time import sleep  # import sleep to wait for blinks
+
 
 neo =Gpio()
 
@@ -848,7 +851,6 @@ num = [0,0,0,0]
 # Blink example
 for i in range(4):
     neo.pinMode(pinNum[i], neo.OUTPUT)
-
 
 
 while True:
