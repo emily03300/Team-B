@@ -879,6 +879,7 @@ while True:
 
     SN2 = ((c4 - 417) - 0.5 * (c5 - 402)) / 0.393
     print(SN2)
+    print(' ')
 
     # Alphasense SN3
     neo.digitalWrite(pinNum[0], 0)
