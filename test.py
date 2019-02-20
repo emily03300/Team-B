@@ -57,7 +57,7 @@ if __name__ == '__main__':
     while True:
         for client_handler in server.active_client_handlers.copy():
             #eastern = timezone('US/Eastern')
-            epochtime = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+            epochtime = datetime.now()
 
             neo.digitalWrite(pinNum[0], 0)
             neo.digitalWrite(pinNum[1], 0)
