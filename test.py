@@ -322,7 +322,6 @@ if __name__ == '__main__':
             scale = float(open("/sys/bus/iio/devices/iio:device0/in_voltage_scale").read())
             c2 = raw * scale
             # temp = (v - 500) / 10 + 45
-            print(c2)
             sleep(1)
 
             neo.digitalWrite(pinNum[0], 1)  # 1
@@ -338,7 +337,6 @@ if __name__ == '__main__':
             scale = float(open("/sys/bus/iio/devices/iio:device0/in_voltage_scale").read())
             c3 = raw * scale
             # sn1 = (v - 500) / 10 + 45
-            print(c3)
             sleep(1)
 
             # 2 port 3port No2
@@ -359,7 +357,6 @@ if __name__ == '__main__':
             scale = float(open("/sys/bus/iio/devices/iio:device0/in_voltage_scale").read())
             c4 = raw * scale
             # temp = (v - 500) / 10 + 45
-            print(c4)
             sleep(1)
 
             neo.digitalWrite(pinNum[0], 1)
@@ -375,7 +372,6 @@ if __name__ == '__main__':
             scale = float(open("/sys/bus/iio/devices/iio:device0/in_voltage_scale").read())
             c5 = raw * scale
             # temp = (v - 500) / 10 + 45
-            print(c5)
             sleep(1)
 
             # 4 port 5port O3
@@ -396,7 +392,6 @@ if __name__ == '__main__':
             scale = float(open("/sys/bus/iio/devices/iio:device0/in_voltage_scale").read())
             c6 = raw * scale
             # temp = (v - 500) / 10 + 45
-            print(c6)
             sleep(1)
 
             neo.digitalWrite(pinNum[0], 1)
@@ -412,7 +407,6 @@ if __name__ == '__main__':
             scale = float(open("/sys/bus/iio/devices/iio:device0/in_voltage_scale").read())
             c7 = raw * scale
             # temp = (v - 500) / 10 + 45
-            print(c7)
             sleep(1)
 
             # 6 port 7port Co
@@ -433,7 +427,6 @@ if __name__ == '__main__':
             scale = float(open("/sys/bus/iio/devices/iio:device0/in_voltage_scale").read())
             c8 = raw * scale
             # temp = (v - 500) / 10 + 45
-            print(c8)
             sleep(1)
 
             neo.digitalWrite(pinNum[0], 1)
@@ -449,7 +442,6 @@ if __name__ == '__main__':
             scale = float(open("/sys/bus/iio/devices/iio:device0/in_voltage_scale").read())
             c9 = raw * scale
             # temp = (v - 500) / 10 + 45
-            print(c9)
             sleep(1)
 
             sn4 = ((c8 - 345) - ((0.6) * (c9 - 255))) * 3.145
