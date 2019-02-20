@@ -7,8 +7,8 @@
 from btserver import BTServer
 from bterror import BTError
 
-# import client_handler
-# import epoch_time
+import client_handler
+import epoch_time
 import argparse
 import asyncore
 import json
