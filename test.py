@@ -559,7 +559,7 @@ if __name__ == '__main__':
             scale = float(open("/sys/bus/iio/devices/iio:device0/in_voltage_scale").read())
             c0 = raw * scale
 
-            temp = (c0 - 590) / 10
+            temp = (c0 - 500) / 10 - 6
 
 
             #Alphasense SN1
