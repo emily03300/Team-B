@@ -5,7 +5,7 @@ from time import sleep  # import sleep to wait for blinks
 
 
 from btserver import BTServer
-# from bterror import BTError
+#from bterror import BTError
 
 # import client_handler
 import argparse
