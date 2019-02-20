@@ -827,7 +827,7 @@ while True:
     raw = int(open("/sys/bus/iio/devices/iio:device0/in_voltage0_raw").read())
     scale = float(open("/sys/bus/iio/devices/iio:device0/in_voltage_scale").read())
     v = raw * scale
-    temp = (v - 590)/10
+    temp = (v - 500)/10 -6
 
     temp = (temp * 1.8) + 32
     print("temp: {} ".format(temp))
