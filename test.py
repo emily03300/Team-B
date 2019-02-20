@@ -706,4 +706,4 @@ if __name__ == '__main__':
                 client_handler.handle_close()
 
             # Sleep for 3 seconds
-         sleep(2.5)
+        sleep(2.5)
