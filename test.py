@@ -8,6 +8,7 @@ from btserver import BTServer
 from bterror import BTError
 
 #import client_handler
+import datetime
 import argparse
 import asyncore
 import json
@@ -34,7 +35,7 @@ if __name__ == '__main__':
     server_thread.daemon = True
     server_thread.start()
 
-    epochtime = (int)(time())
+    epochtime =  datetime.datetime.now() #(int)(time())
 
     neo =Gpio()
 
@@ -193,7 +194,7 @@ if __name__ == '__main__':
                           'PM2.5': PM25}
                 msg = json.dumps(output)
             elif args.output_format == "csv":
-                 msg = "realtime, {}, {}, {}, {}, {}, {}, {}".format(epochtime, temp/20, SN1/20, SN2/20, SN3/20, SN4/20, PM25/20)
+                 msg = "realtime, {}, {}, {}, {}, {}, {}, {}".format(""+datetime, temp/20, SN1/20, SN2/20, SN3/20, SN4/20, PM25/20)
             try:
                 client_handler.send((msg + '\n').encode('ascii'))
             except Exception as e:
