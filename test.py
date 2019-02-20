@@ -179,10 +179,9 @@ if __name__ == '__main__':
         print("PM25: {} ".format(PM25))
         print("\n")
 
-        msg = ""
-        if args.output_format == "csv":
-            msg = "realtime, {}, {}, {}, {}, {}, {}, {}".format(epochtime, temp, SN1, SN2, SN3, SN4, PM25)
-        elif args.output_format == "json":
+        #msg = ""
+
+        if args.output_format == "json":
             output = {'type': 'realtime',
                       'time': epochtime,
                       'temp': temp,
@@ -192,6 +191,8 @@ if __name__ == '__main__':
                       'SO2_SN4': SN4,
                       'PM2.5': PM25}
             msg = json.dumps(output)
+        elif args.output_format == "csv":
+             msg = "realtime, {}, {}, {}, {}, {}, {}, {}".format(epochtime, temp, SN1, SN2, SN3, SN4, PM25)
         # try:
         #     client_handler.send((msg + '\n').encode('ascii'))
         # except Exception as e:
