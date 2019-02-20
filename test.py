@@ -452,6 +452,10 @@ if __name__ == '__main__':
             print(c9)
             sleep(1)
 
+            sn4 = ((c8 - 345) - ((0.6) * (c9 - 255))) * 3.145
+            sn4 = sn4 if (sn4 >= 0) else -sn4
+            print("SO2-sn4 : {}".format(sn4))
+
             # 8 port 9port so2
             # PM2.5
             neo.digitalWrite(pinNum[0], 1)
