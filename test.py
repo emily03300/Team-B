@@ -179,7 +179,7 @@ if __name__ == '__main__':
                 c11, 2) + 2211.8 * c11 + 7.9623)
             PM25 = 0.518 + .00274 * hppcf
             print("PM25: {} ".format(PM25))
-            print("It's now: {:%Y/%m/%d %H:%M:%S}".format(datetime))
+            print("It's now: {:%Y/%m/%d %H:%M:%S}".format(epochtime))
             print("\n")
 
 
@@ -196,7 +196,7 @@ if __name__ == '__main__':
                           'PM2.5': PM25}
                 msg = json.dumps(output)
             elif args.output_format == "csv":
-                 msg = "realtime, {}, {}, {}, {}, {}, {}, {}".format(datetime, temp/20, SN1/20, SN2/20, SN3/20, SN4/20, PM25/20)
+                 msg = "realtime, {}, {}, {}, {}, {}, {}, {}".format(epochtime, temp/20, SN1/20, SN2/20, SN3/20, SN4/20, PM25/20)
             try:
                 client_handler.send((msg + '\n').encode('ascii'))
             except Exception as e:
