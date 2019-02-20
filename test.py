@@ -947,16 +947,16 @@ while True:
     msg = ""
     if args.output_format == "csv":
         msg = "realtime, {}, {}, {}, {}, {}, {}, {}".format(epoch_time, temp, SN1, SN2, SN3, SN4, PM25)
-    elif args.output_format == "json":
-        output = {'type': 'realtime',
-                  'time': epoch_time,
-                  'temp': temp,
-                  'NO2_SN1': SN1,
-                  'O3_SN2': SN2,
-                  'CO_SN3': SN3,
-                  'SO2_SN4': SN4,
-                  'PM2.5': PM25}
-        msg = json.dumps(output)
+    # elif args.output_format == "json":
+    #     output = {'type': 'realtime',
+    #               'time': epoch_time,
+    #               'temp': temp,
+    #               'NO2_SN1': SN1,
+    #               'O3_SN2': SN2,
+    #               'CO_SN3': SN3,
+    #               'SO2_SN4': SN4,
+    #               'PM2.5': PM25}
+    #     msg = json.dumps(output)
     try:
         client_handler.send((msg + '\n').encode('ascii'))
     except Exception as e:
@@ -964,5 +964,5 @@ while True:
         client_handler.handle_close()
 
     # Sleep for 3 seconds
-sleep(5)
+    sleep(5)
 
