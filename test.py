@@ -373,9 +373,8 @@ if __name__ == '__main__':
             print("PM25: {} ".format(PM25))
             PM25 = AQI_convert(PM25, 'PM25')
             print("PM25-AQIconvert: {} ".format(PM25))
-            # print("It's now: {:%Y/%m/%d %H:%M:%S}".format(epochtime))
-            print("\n")
-
+            print("It's now: {:%Y/%m/%d %H:%M:%S}".format(epochtime))
+            print(epochtime)
 
             # msg = ""
 
