@@ -326,6 +326,8 @@ if __name__ == '__main__':
             raw, scale = contol_mux(1,0,1,1)
             sleep(0.05)
             c11 = (raw * scale) / 1000  #volt
+            print("raw=",raw)
+            print("scale=",scale)
             print("c11=",c11)
 
             #PM2.5
