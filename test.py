@@ -123,7 +123,7 @@ def AQI_convert( c , air):
                 I=500
                 break;
 
-            elif ( PM25_MinAqiArray[i] <= c <= PM25_MaxAqiArray[i] ):
+            elif ( PM25_MinAqiArray[i] <= c < PM25_MaxAqiArray[i]+0.1 ):
                 c_low = PM25_MinAqiArray[i];
                 c_high = PM25_MaxAqiArray[i];
                 i_low = Aqi_MinAqiArray[i];
@@ -136,7 +136,7 @@ def AQI_convert( c , air):
                 I = 500
                 break;
 
-            elif ( CO_MinAqiArray[i] <= c <= CO_MaxAqiArray[i] ):
+            elif ( CO_MinAqiArray[i] <= c < CO_MaxAqiArray[i] +0.1):
                 c_low = CO_MinAqiArray[i];
                 c_high = CO_MaxAqiArray[i];
                 i_low = Aqi_MinAqiArray[i];
@@ -148,7 +148,7 @@ def AQI_convert( c , air):
                 I = 500
                 break;
 
-            elif ( SO2_MinAqiArray[i] <= c <= SO2_MaxAqiArray[i] ):
+            elif ( SO2_MinAqiArray[i] <= c < SO2_MaxAqiArray[i] +1):
                 c_low = SO2_MinAqiArray[i];
                 c_high = SO2_MaxAqiArray[i];
                 i_low = Aqi_MinAqiArray[i];
@@ -160,7 +160,7 @@ def AQI_convert( c , air):
                 I = 500
                 break;
 
-            if ( NO2_MinAqiArray[i] <= c <= NO2_MaxAqiArray[i] ):
+            if ( NO2_MinAqiArray[i] <= c < NO2_MaxAqiArray[i] +1):
                 c_low = NO2_MinAqiArray[i];
                 c_high = NO2_MaxAqiArray[i];
                 i_low = Aqi_MinAqiArray[i];
@@ -172,7 +172,7 @@ def AQI_convert( c , air):
                 I = 500
                 break;
 
-            if ( O3_8Min_AqiArray[i] <= c <= O3_8Max_AqiArray[i] ):
+            if ( O3_8Min_AqiArray[i] <= c < O3_8Max_AqiArray[i]+1 ):
                 c_low = O3_8Min_AqiArray[i];
                 c_high = O3_8Max_AqiArray[i];
                 i_low = Aqi_MinAqiArray[i];
@@ -180,9 +180,6 @@ def AQI_convert( c , air):
                 break;
     ###################computing AQI formula####################
     if(I!=500):
-        # print("(i_high - i_low)= {} - {} = {}",i_high,i_low,(i_high - i_low))
-        # print("(c_high - c_low)= {} - {} = {}",c_high,c_low,(c_high - c_low))
-        # print("(c - c_low)= {} - {} = {}",c ,c_low,(c - c_low))
         I = (((i_high - i_low) / (c_high - c_low)) * (c - c_low)) + i_low
     ############################################################
 
@@ -267,7 +264,6 @@ if __name__ == '__main__':
             SN1 = ((c2 - 287) - (get_alpha(temp_c, 'NO2') * (c3 - 280))) / 0.258
             SN1 = SN1 if (SN1 >= 0) else -SN1
             print("NO2: {} ".format(SN1))
-            SN1=int(SN1) #
             SN1=AQI_convert(SN1, 'NO2')
             print("NO2-AQIconvert: {} ".format(SN1))
 
@@ -295,7 +291,6 @@ if __name__ == '__main__':
             SN2 = ((c4 - 394) - (get_alpha(temp_c, 'O3') * (c5 - 395))) / 0.393
             SN2 = SN2 if (SN2 >= 0) else -SN2
             print("O3: {} ".format(SN2))
-            SN2 = int(SN2)
             SN2 = AQI_convert(SN2, 'O3')
             print("O3-AQIconverted: {} ".format(SN2))
 
@@ -324,7 +319,6 @@ if __name__ == '__main__':
             SN3 = SN3/1000
             SN3 = SN3 if (SN3 >= 0) else -SN3
             print("CO: {} ".format(SN3))
-            SN3 = round(SN3, 1)  #
             SN3 = AQI_convert(SN3, 'CO')
             print("CO-AQIconvert: {} ".format(SN3))
 
@@ -352,7 +346,6 @@ if __name__ == '__main__':
             SN4 = ((c8 - 282) - (get_alpha(temp_c, 'SO2') * (c9 - 304))) /0.3
             SN4 = SN4 if (SN4 >= 0) else -SN4
             print("SO2: {} ".format(SN4))
-            SN4=int(SN4)
             SN4 = AQI_convert(SN4, 'SO2')
             print("SO2-AQIconvert: {} ".format(SN4))
 
@@ -371,7 +364,6 @@ if __name__ == '__main__':
                 c11, 2) + 2211.8 * c11 + 7.9623)
             PM25 = 0.518 + .00274 * hppcf
             print("PM25: {} ".format(PM25))
-            PM25 = round(PM25, 1)  #
             PM25 = AQI_convert(PM25, 'PM25')
             print("PM25-AQIconvert: {} ".format(PM25))
             # print("It's now: {:%Y/%m/%d %H:%M:%S}".format(epochtime))
