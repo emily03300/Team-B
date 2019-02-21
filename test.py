@@ -127,7 +127,7 @@ def AQI_convert( c , air):
     if (air == 'PM25'):
         for i in range(0, 7):
             if(PM25_MaxAqiArray[6] < c):
-                I=500
+                I=500.0
                 break;
 
             elif ( PM25_MinAqiArray[i] <= c < PM25_MaxAqiArray[i]):
@@ -140,7 +140,7 @@ def AQI_convert( c , air):
     elif (air == 'CO'):
         for i in range(0, 7):
             if (CO_MaxAqiArray[6] < c):
-                I = 500
+                I = 500.0
                 break;
 
             elif ( CO_MinAqiArray[i] <= c < CO_MaxAqiArray[i]):
@@ -152,7 +152,7 @@ def AQI_convert( c , air):
     elif (air == 'SO2'):
         for i in range(0, 7):
             if (SO2_MaxAqiArray[6] < c):
-                I = 500
+                I = 500.0
                 break;
 
             elif ( SO2_MinAqiArray[i] <= c < SO2_MaxAqiArray[i]):
@@ -164,7 +164,7 @@ def AQI_convert( c , air):
     elif (air == 'NO2'):
         for i in range(0, 7):
             if (NO2_MaxAqiArray[6] < c):
-                I = 500
+                I = 500.0
                 break;
 
             if ( NO2_MinAqiArray[i] <= c < NO2_MaxAqiArray[i]):
@@ -176,7 +176,7 @@ def AQI_convert( c , air):
     elif (air == 'O3'):
         for i in range(0, 5):
             if (O3_8Max_AqiArray[4] < c):
-                I = 500
+                I = 500.0
                 break;
 
             if ( O3_8Min_AqiArray[i] <= c < O3_8Max_AqiArray[i]):
@@ -186,7 +186,7 @@ def AQI_convert( c , air):
                 i_high = Aqi_MaxAqiArray[i];
                 break;
     ###################computing AQI formula####################
-    if(I!=500):
+    if(I!=500.0):
         I = (((i_high - i_low) / (c_high - c_low)) * (c - c_low)) + i_low
     ############################################################
 
@@ -270,6 +270,7 @@ if __name__ == '__main__':
 
             SN1 = ((c2 - NO2_WE) - (get_alpha(temp_c, 'NO2') * (c3 - NO2_AE))) / NO2_alpha
             SN1 = SN1 if (SN1 >= 0) else -SN1
+            raw_SN1=SN1
             print("NO2: {} ".format(SN1))
             SN1=AQI_convert(SN1, 'NO2')
             print("NO2-AQIconvert: {} ".format(SN1))
@@ -297,6 +298,7 @@ if __name__ == '__main__':
 
             SN2 = ((c4 - O3_WE) - (get_alpha(temp_c, 'O3') * (c5 - O3_AE))) / O3_alpha
             SN2 = SN2 if (SN2 >= 0) else -SN2
+            raw_SN2 = SN2
             print("O3: {} ".format(SN2))
             SN2 = AQI_convert(SN2, 'O3')
             print("O3-AQIconverted: {} ".format(SN2))
@@ -325,6 +327,7 @@ if __name__ == '__main__':
             SN3 = ((c6 - CO_WE) - (get_alpha(temp_c, 'CO') * (c7 - CO_AE))) / CO_alpha
             SN3 = SN3/1000
             SN3 = SN3 if (SN3 >= 0) else -SN3
+            raw_SN3 = SN3
             print("CO: {} ".format(SN3))
             SN3 = AQI_convert(SN3, 'CO')
             print("CO-AQIconvert: {} ".format(SN3))
@@ -352,6 +355,7 @@ if __name__ == '__main__':
 
             SN4 = ((c8 - SO2_WE) - (get_alpha(temp_c, 'SO2') * (c9 - SO2_AE))) /SO2_alpha
             SN4 = SN4 if (SN4 >= 0) else -SN4
+            raw_SN4 = SN4
             print("SO2: {} ".format(SN4))
             SN4 = AQI_convert(SN4, 'SO2')
             print("SO2-AQIconvert: {} ".format(SN4))
@@ -370,6 +374,7 @@ if __name__ == '__main__':
             hppcf = (240.0 * pow(c11, 6) - 2491.3 * pow(c11, 5) + 9448.7 * pow(c11, 4) - 14840.0 * pow(c11, 3) + 10684.0 * pow(
                 c11, 2) + 2211.8 * c11 + 7.9623)
             PM25 = 0.518 + .00274 * hppcf
+            raw_PM25 = PM25
             print("PM25: {} ".format(PM25))
             PM25 = AQI_convert(PM25, 'PM25')
             print("PM25-AQIconvert: {} ".format(PM25))
@@ -388,7 +393,7 @@ if __name__ == '__main__':
                           'PM2.5': PM25}
                 msg = json.dumps(output)
             elif args.output_format == "csv":
-                 msg = "realtime, {}, {}, {}, {}, {}, {}, {}".format(epochtime, temp, SN1, SN2, SN3, SN4, PM25)
+                 msg = "realtime, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}".format(epochtime, temp,raw_SN1, raw_SN2, raw_SN3, raw_SN4, raw_PM25, SN1, SN2, SN3, SN4, PM25 )
             try:
                 client_handler.send((msg + '\n').encode('ascii'))
             except Exception as e:
