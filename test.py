@@ -125,7 +125,7 @@ def AQI_convert( c , air):
 
             elif ( PM25_MinAqiArray[i] <= c < PM25_MaxAqiArray[i]+0.1 ):
                 c_low = PM25_MinAqiArray[i];
-                c_high = PM25_MaxAqiArray[i];
+                c_high = PM25_MaxAqiArray[i];5
                 i_low = Aqi_MinAqiArray[i];
                 i_high = Aqi_MaxAqiArray[i];
                 break;
