@@ -410,7 +410,7 @@ if __name__ == '__main__':
                           'PM2.5': PM25}
                 msg = json.dumps(output)
             elif args.output_format == "csv":
-                 msg = "realtime, {}, {}, {}, {}, {}, {}, {}".format(epochtime, temp, SN1, SN2, SN3, SN4, PM25, raw_SN1, raw_SN2, raw_SN3, raw_SN4, raw_PM25)
+                 msg = "realtime, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}".format(epochtime, temp, SN1, SN2, SN3, SN4, PM25, raw_SN1, raw_SN2, raw_SN3, raw_SN4, raw_PM25)
             try:
                 client_handler.send((msg + '\n').encode('ascii'))
             except Exception as e:
