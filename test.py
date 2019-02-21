@@ -289,7 +289,7 @@ if __name__ == '__main__':
 
             SN2 = ((c4 - 394) - (get_alpha(temp_c, 'O3') * (c5 - 395))) / 0.393
             SN2 = SN2 if (SN2 >= 0) else -SN2
-            SN2 = AQI_convert(SN2, 'O3')
+         #   SN2 = AQI_convert(SN2, 'O3')
             print("O3: {} ".format(SN2))
 
             # Alphasense SN3
