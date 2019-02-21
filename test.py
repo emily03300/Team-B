@@ -326,6 +326,7 @@ if __name__ == '__main__':
             raw, scale = contol_mux(1,0,1,1)
             sleep(0.05)
             c11 = (raw * scale) / 1000  #volt
+            print("c11=",c11)
 
             #PM2.5
             hppcf = (240.0 * pow(c11, 6) - 2491.3 * pow(c11, 5) + 9448.7 * pow(c11, 4) - 14840.0 * pow(c11, 3) + 10684.0 * pow(
