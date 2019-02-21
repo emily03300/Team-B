@@ -338,7 +338,7 @@ if __name__ == '__main__':
             # # raw_PM25= PM25
             # # print("PM25: {} ".format(PM25))
             # # PM25 = AQI_convert(PM25, 'PM25')
-            PM25=random.randrange(10, 13)
+            PM25=random.randrange(10.0, 13.0)
             print("PM25-AQIconvert: {} ".format(PM25))
             # print("It's now: {:%Y/%m/%d %H:%M:%S}".format(epochtime))
             print("\n")
