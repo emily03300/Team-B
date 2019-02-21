@@ -17,6 +17,77 @@ from neo import Gpio
 # from pytz import timezone
 
 
+############################ N table ##################################
+#array for calculate alph
+#temp              -30,  -20   -10     0    10     20   30    40    50
+#index               0,    1,    2,    3,    4,    5,    6,    7 ,   8
+O3_tempArray  = [ 0.18, 0.18, 0.18, 0.18, 0.18, 0.18, 0.18, 0.18, 2.87]
+SO2_tempArray = [ 0.85, 0.85, 0.85, 0.85, 0.85, 1.15, 1.45, 1.75, 1.95]
+NO2_tempArray = [ 1.18, 1.18, 1.18, 1.18, 1.18, 1.18, 1.18, 2.00, 2.70]
+CO_tempArray  = [ 1.40, 1.03, 0.85, 0.62, 0.30, 0.03,-0.25,-0.48,-0.80]
+#######################################################################
+
+def get_alpha(temper, air): #air = NO2,O3, CO, SO2
+    temper
+    i=0 #index
+    mulx=0 # multiple #times
+    if(-30<=temper<-20):
+        i = 0;
+        mulx = temper + 30  # ex -28'C + 30 = 2 >> 2
+    elif(-20<=temper<-10):
+        i = 1;
+        mulx = temper + 20
+    elif (-10 <= temper < 0):
+        i = 2;
+        mulx = temper + 10
+    elif (0 <= temper < 10):
+        i = 3;
+        mulx = temper
+    elif (10 <= temper < 20):
+        i = 4;
+        mulx = temper -10
+    elif (20 <= temper < 30):
+        i = 5;
+        mulx = temper -20
+    elif (30 <= temper < 40):
+        i = 6;
+        mulx = temper -30
+    elif (40 <= temper < 50):
+        i = 7;
+        mulx = temper - 40
+    elif (50 <= temper):
+        i = 8; # if temperature exceed 50 just give 50'C data
+
+    N =0.0
+    if(air == 'O3'):
+        if(i==8):
+            N=O3_tempArray[i]
+        else:
+            tmp=( O3_tempArray[i + 1] - O3_tempArray[i] ) / 10.0
+            N=O3_tempArray[i] + (tmp * mulx)
+
+    elif(air == 'CO'):
+        if(i==8):
+            N=CO_tempArray[i]
+        else:
+            tmp=( CO_tempArray[i + 1] - CO_tempArray[i] ) / 10.0
+            N=CO_tempArray[i] + (tmp * mulx)
+
+    elif(air == 'NO2'):
+        if(i==8):
+            N=NO2_tempArray[i]
+        else:
+            tmp=( NO2_tempArray[i + 1] - NO2_tempArray[i] ) / 10.0
+            N=NO2_tempArray[i] + (tmp * mulx)
+
+    elif (air == 'SO2'):
+        if(i==8):
+            N=SO2_tempArray[i]
+        else:
+            tmp=( SO2_tempArray[i + 1] - SO2_tempArray[i] ) / 10.0
+            N=SO2_tempArray[i] + (tmp * mulx)
+
+    return N
 
 if __name__ == '__main__':
     # Create option parser
@@ -68,8 +139,8 @@ if __name__ == '__main__':
             raw = int(open("/sys/bus/iio/devices/iio:device0/in_voltage0_raw").read())
             scale = float(open("/sys/bus/iio/devices/iio:device0/in_voltage_scale").read())
             v = raw * scale
-            temp = (v - 500)/10 - 6
-            temp = (temp * 1.8) + 32
+            temp_c = (v - 500)/10 - 6
+            temp = (temp_c * 1.8) + 32
             print("temp: {} F".format(temp))
 
             # Alphasense SN1
@@ -93,7 +164,7 @@ if __name__ == '__main__':
             scale = float(open("/sys/bus/iio/devices/iio:device0/in_voltage_scale").read())
             c3 = raw * scale
 
-            SN1 = ((c2 - 287) - 0.75 * (c3 - 280)) / 0.258
+            SN1 = ((c2 - 287) - (get_alpha(temp_c, 'NO2') * (c3 - 280))) / 0.258
             print("NO2: {} ".format(SN1))
 
             # Alphasense SN2
@@ -117,7 +188,7 @@ if __name__ == '__main__':
             scale = float(open("/sys/bus/iio/devices/iio:device0/in_voltage_scale").read())
             c5 = raw * scale
 
-            SN2 = ((c4 - 394) - 0.5 * (c5 - 395)) / 0.393
+            SN2 = ((c4 - 394) - (get_alpha(temp_c, 'O3') * (c5 - 395))) / 0.393
             print("O3: {} ".format(SN2))
 
             # Alphasense SN3
@@ -141,7 +212,7 @@ if __name__ == '__main__':
             scale = float(open("/sys/bus/iio/devices/iio:device0/in_voltage_scale").read())
             c7 = raw * scale
 
-            SN3 = ((c6 - 276) - 0.44 * (c7 - 280)) / 0.292
+            SN3 = ((c6 - 276) - (get_alpha(temp_c, 'CO') * (c7 - 280))) / 0.292
             print("CO: {} ".format(SN3))
 
             # Alphasense SN4
@@ -165,7 +236,7 @@ if __name__ == '__main__':
             scale = float(open("/sys/bus/iio/devices/iio:device0/in_voltage_scale").read())
             c9 = raw * scale
 
-            SN4 = ((c8 - 282) - 0.6 * (c9 - 304)) /0.3
+            SN4 = ((c8 - 282) - (get_alpha(temp_c, 'SO2') * (c9 - 304))) /0.3
             print("SO2: {} ".format(SN4))
 
             # PM2.5
@@ -200,7 +271,7 @@ if __name__ == '__main__':
                           'PM2.5': PM25}
                 msg = json.dumps(output)
             elif args.output_format == "csv":
-                 msg = "realtime, {}, {}, {}, {}, {}, {}, {}".format(epochtime, temp/20, SN1/20, SN2/20, SN3/20, SN4/20, PM25/20)
+                 msg = "realtime, {}, {}, {}, {}, {}, {}, {}".format(epochtime, temp, SN1/20, SN2/20, SN3/20, SN4/20, PM25/20)
             try:
                 client_handler.send((msg + '\n').encode('ascii'))
             except Exception as e:
