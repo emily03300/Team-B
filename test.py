@@ -26,6 +26,9 @@ def contol_mux( a, b, c, d):         # use binary bit to control mux
     neo.digitalWrite(pinNum[1], c)
     neo.digitalWrite(pinNum[2], b)
     neo.digitalWrite(pinNum[3], a)
+    raw = int(open("/sys/bus/iio/devices/iio:device0/in_voltage0_raw").read())
+    scale = float(open("/sys/bus/iio/devices/iio:device0/in_voltage_scale").read())
+    return raw, scale
 
 ############################ N table ####################################
 #array for calculate alph                                              ##
@@ -195,7 +198,7 @@ def AQI_convert( c , air):
 
     return I;
 
-
+##main start##
 if __name__ == '__main__':
     # Create option parser
     usage = "usage: %prog [options] arg"
@@ -239,28 +242,22 @@ if __name__ == '__main__':
             epochtime = datetime.now()
 
             #==mux 0==##########
-            contol_mux(0,0,0,0)
+            raw, scale =contol_mux(0,0,0,0)
             sleep(1)
-            raw = int(open("/sys/bus/iio/devices/iio:device0/in_voltage0_raw").read())
-            scale = float(open("/sys/bus/iio/devices/iio:device0/in_voltage_scale").read())
-            v = raw * scale
+            v = raw * scale #volt
             temp_c = (v - 500)/10 - 6
             temp = (temp_c * 1.8) + 32
             print("temp: {} F".format(temp))
 
             #==mux 2==########## NO2_WE
-            contol_mux(0,0,1,0)
+            raw, scale = contol_mux(0,0,1,0)
             sleep(0.05)
-            raw = int(open("/sys/bus/iio/devices/iio:device0/in_voltage0_raw").read())
-            scale = float(open("/sys/bus/iio/devices/iio:device0/in_voltage_scale").read())
-            c2 = raw * scale
+            c2 = raw * scale #volt
 
             #==mux 3==########## NO2_AE
-            contol_mux(0,0,1,1)
+            raw, scale =contol_mux(0,0,1,1)
             sleep(0.05)
-            raw = int(open("/sys/bus/iio/devices/iio:device0/in_voltage0_raw").read())
-            scale = float(open("/sys/bus/iio/devices/iio:device0/in_voltage_scale").read())
-            c3 = raw * scale
+            c3 = raw * scale #volt
 
             # Alphasense SN1 >> NO2
             SN1 = ((c2 - NO2_WE) - (get_alpha(temp_c, 'NO2') * (c3 - NO2_AE))) / NO2_alpha
@@ -271,18 +268,14 @@ if __name__ == '__main__':
             print("NO2-AQIconvert: {} ".format(SN1))
 
             #==mux 4==########## O3_WE
-            contol_mux(0,1,0,0)
+            raw, scale =contol_mux(0,1,0,0)
             sleep(0.05)
-            raw = int(open("/sys/bus/iio/devices/iio:device0/in_voltage0_raw").read())
-            scale = float(open("/sys/bus/iio/devices/iio:device0/in_voltage_scale").read())
-            c4 = raw * scale
+            c4 = raw * scale #volt
 
             #==mux 5==########## O3_AE
-            contol_mux(0,1,0,1)
+            raw, scale =contol_mux(0,1,0,1)
             sleep(0.05)
-            raw = int(open("/sys/bus/iio/devices/iio:device0/in_voltage0_raw").read())
-            scale = float(open("/sys/bus/iio/devices/iio:device0/in_voltage_scale").read())
-            c5 = raw * scale
+            c5 = raw * scale #volt
 
             # Alphasense SN2 >> O3
             SN2 = ((c4 - O3_WE) - (get_alpha(temp_c, 'O3') * (c5 - O3_AE))) / O3_alpha
@@ -293,18 +286,14 @@ if __name__ == '__main__':
             print("O3-AQIconverted: {} ".format(SN2))
 
             #==mux 6==########## CO_WE
-            contol_mux(0,1,1,0)
+            raw, scale =contol_mux(0,1,1,0)
             sleep(0.05)
-            raw = int(open("/sys/bus/iio/devices/iio:device0/in_voltage0_raw").read())
-            scale = float(open("/sys/bus/iio/devices/iio:device0/in_voltage_scale").read())
-            c6 = raw * scale
+            c6 = raw * scale #volt
 
             #==mux 7==########## CO_AE
-            contol_mux(0,1,1,1)
+            raw, scale = contol_mux(0,1,1,1)
             sleep(0.05)
-            raw = int(open("/sys/bus/iio/devices/iio:device0/in_voltage0_raw").read())
-            scale = float(open("/sys/bus/iio/devices/iio:device0/in_voltage_scale").read())
-            c7 = raw * scale
+            c7 = raw * scale #volt
 
             # Alphasense SN3
             SN3 = ((c6 - CO_WE) - (get_alpha(temp_c, 'CO') * (c7 - CO_AE))) / CO_alpha
@@ -316,18 +305,14 @@ if __name__ == '__main__':
             print("CO-AQIconvert: {} ".format(SN3))
 
             #==mux 8==########## SO2_WE
-            contol_mux(1,0,0,0)
+            raw,scale = contol_mux(1,0,0,0)
             sleep(0.05)
-            raw = int(open("/sys/bus/iio/devices/iio:device0/in_voltage0_raw").read())
-            scale = float(open("/sys/bus/iio/devices/iio:device0/in_voltage_scale").read())
-            c8 = raw * scale
+            c8 = raw * scale #volt
 
             #==mux 9==########## SO2_AE
-            contol_mux(1,0,0,1)
+            raw, scale = contol_mux(1,0,0,1)
             sleep(0.05)
-            raw = int(open("/sys/bus/iio/devices/iio:device0/in_voltage0_raw").read())
-            scale = float(open("/sys/bus/iio/devices/iio:device0/in_voltage_scale").read())
-            c9 = raw * scale
+            c9 = raw * scale #volt
 
             # Alphasense SN4
             SN4 = ((c8 - SO2_WE) - (get_alpha(temp_c, 'SO2') * (c9 - SO2_AE))) /SO2_alpha
@@ -338,11 +323,9 @@ if __name__ == '__main__':
             print("SO2-AQIconvert: {} ".format(SN4))
 
             #==mux 11==########## PM2.5
-            contol_mux(1,0,1,1)
+            raw, scale = contol_mux(1,0,1,1)
             sleep(0.05)
-            raw = int(open("/sys/bus/iio/devices/iio:device0/in_voltage0_raw").read())
-            scale = float(open("/sys/bus/iio/devices/iio:device0/in_voltage_scale").read())
-            c11 = (raw * scale) / 1000
+            c11 = (raw * scale) / 1000  #volt
 
             #PM2.5
             hppcf = (240.0 * pow(c11, 6) - 2491.3 * pow(c11, 5) + 9448.7 * pow(c11, 4) - 14840.0 * pow(c11, 3) + 10684.0 * pow(
