@@ -180,6 +180,9 @@ def AQI_convert( c , air):
                 break;
     ###################computing AQI formula####################
     if(I!=500):
+        print("(i_high - i_low)= {} - {} = {}",i_high,i_low,(i_high - i_low))
+        print("(c_high - c_low)= {} - {} = {}",c_high,c_low,(c_high - c_low))
+        print("(c - c_low)= {} - {} = {}",c ,c_low,(c - c_low))
         I = (((i_high - i_low) / (c_high - c_low)) * (c - c_low)) + i_low
     ############################################################
 
