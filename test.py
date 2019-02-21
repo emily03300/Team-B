@@ -122,7 +122,7 @@ def AQI_convert( c , air):
 
     if (air == 'PM25'):
         for i in range(0, 7):
-            if(PM25_MaxAqiArray[i] < c):
+            if(PM25_MaxAqiArray[6] < c):
                 I=500
                 break;
 
@@ -135,7 +135,7 @@ def AQI_convert( c , air):
 
     elif (air == 'CO'):
         for i in range(0, 7):
-            if (CO_MaxAqiArray[i] < c):
+            if (CO_MaxAqiArray[6] < c):
                 I = 500
                 break;
 
@@ -147,7 +147,7 @@ def AQI_convert( c , air):
                 break;
     elif (air == 'SO2'):
         for i in range(0, 7):
-            if (SO2_MaxAqiArray[i] < c):
+            if (SO2_MaxAqiArray[6] < c):
                 I = 500
                 break;
 
@@ -159,7 +159,7 @@ def AQI_convert( c , air):
                 break;
     elif (air == 'NO2'):
         for i in range(0, 7):
-            if (NO2_MaxAqiArray[i] < c):
+            if (NO2_MaxAqiArray[6] < c):
                 I = 500
                 break;
 
@@ -360,8 +360,8 @@ if __name__ == '__main__':
 
             SN4 = ((c8 - 282) - (get_alpha(temp_c, 'SO2') * (c9 - 304))) /0.3
             SN4 = SN4 if (SN4 >= 0) else -SN4
-            #SN4 = AQI_convert(SN4, 'SO2')
-            print("SO2: {} ".format(SN4))
+            SN4 = AQI_convert(SN4, 'SO2')
+            print("SO2-AQIconvert: {} ".format(SN4))
 
             # PM2.5
             neo.digitalWrite(pinNum[0], 1)
