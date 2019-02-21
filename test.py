@@ -15,17 +15,24 @@ from threading import Thread
 from time import sleep, time
 from neo import Gpio
 # from pytz import timezone
+############ Alpha sense data sheet #############
+NO2_WE = 287; NO2_AE = 280; NO2_alpha = 0.212;  #
+O3_WE = 394; O3_AE = 395; O3_alpha = 0.276;     #
+CO_WE = 276; CO_AE = 280; CO_alpha = 0.266;     #
+SO2_WE = 282; SO2_AE = 304; SO2_alpha = 0.296;  #
+#################################################
 
 
-############################ N table ##################################
-#array for calculate alph
-#temp              -30,  -20   -10     0    10     20   30    40    50
-#index               0,    1,    2,    3,    4,    5,    6,    7 ,   8
-O3_tempArray  = [ 0.18, 0.18, 0.18, 0.18, 0.18, 0.18, 0.18, 0.18, 2.87]
-SO2_tempArray = [ 0.85, 0.85, 0.85, 0.85, 0.85, 1.15, 1.45, 1.75, 1.95]
-NO2_tempArray = [ 1.18, 1.18, 1.18, 1.18, 1.18, 1.18, 1.18, 2.00, 2.70]
-CO_tempArray  = [ 1.40, 1.03, 0.85, 0.62, 0.30, 0.03,-0.25,-0.48,-0.80]
-#######################################################################
+
+############################ N table ###################################
+#array for calculate alph                                              #
+#temp              -30,  -20   -10     0    10     20   30    40    50 #
+#index               0,    1,    2,    3,    4,    5,    6,    7 ,   8 #
+O3_tempArray  = [ 0.18, 0.18, 0.18, 0.18, 0.18, 0.18, 0.18, 0.18, 2.87]#
+SO2_tempArray = [ 0.85, 0.85, 0.85, 0.85, 0.85, 1.15, 1.45, 1.75, 1.95]#
+NO2_tempArray = [ 1.18, 1.18, 1.18, 1.18, 1.18, 1.18, 1.18, 2.00, 2.70]#
+CO_tempArray  = [ 1.40, 1.03, 0.85, 0.62, 0.30, 0.03,-0.25,-0.48,-0.80]#
+########################################################################
 
 def get_alpha(temper, air): #air = NO2,O3, CO, SO2
     temper
@@ -89,25 +96,25 @@ def get_alpha(temper, air): #air = NO2,O3, CO, SO2
 
     return N
 
-############################ AQI table ##################################
-#AQI              0-50,  51-100, 101-150, 151-200, 201-300, 301-400, 401-500
-#index               0,       1,       2,       3,       4,       5,       6,
-#MAX (038, O31, PM25, CO, SO2, NO2, AQI)
-O3_8Max_AqiArray  = [54.0, 70.0, 85.0, 105.0, 200.0,  0.0,  0.0]
-PM25_MaxAqiArray  = [12.0, 35.4, 55.4, 150.4, 250.4, 350.4, 500.4]
-CO_MaxAqiArray    = [4.4, 9.4, 12.4, 15.4, 30.4, 40.4, 50.4]
-SO2_MaxAqiArray   = [35.0, 75.0, 185.0, 304.0, 604.0, 804.0, 1004.0]
-NO2_MaxAqiArray   = [53.0, 100.0, 360.0, 649.0, 1249.0, 1649.0, 2049.0]
-Aqi_MaxAqiArray   = [50.0, 100.0, 150.0, 200.0, 300.0, 400.0, 500.0]
-
-#MIN (038, O31, PM25, CO, SO2, NO2, AQI)
-O3_8Min_AqiArray  = [0.0, 55.0, 71.0, 86.0, 106.0, 0.0, 0.0]
-PM25_MinAqiArray  = [0.0, 12.1, 35.5, 55.5, 150.5, 250.5, 350.5]
-CO_MinAqiArray    = [0.0, 4.5, 9.5, 12.5, 15.5, 30.5, 40.5]
-SO2_MinAqiArray   = [0.0, 36.0, 76.0, 186.0, 305.0, 605.0, 805.0]
-NO2_MinAqiArray   = [0.0, 54.0, 101.0, 361.0, 650.0, 1250.0, 1650.0]
-Aqi_MinAqiArray   = [0.0, 51.0, 101.0, 151.0, 201.0, 301.0, 401.0]
-#######################################################################
+############################ AQI table #######################################
+#AQI              0-50,  51-100, 101-150, 151-200, 201-300, 301-400, 401-500 #
+#index               0,       1,       2,       3,       4,       5,       6,#
+#MAX (038, O31, PM25, CO, SO2, NO2, AQI)                                     #
+O3_8Max_AqiArray  = [55.0, 71.0, 86.0, 106.0, 200.0,  0.0,  0.0]             #
+PM25_MaxAqiArray  = [12.1, 35.5, 55.5, 150.5, 250.5, 350.5, 500.4]           #
+CO_MaxAqiArray    = [4.5, 9.5, 12.5, 15.5, 30.5, 40.5, 50.4]                 #
+SO2_MaxAqiArray   = [36.0, 76.0, 186.0, 305.0, 605.0, 805.0, 1004.0]         #
+NO2_MaxAqiArray   = [54.0, 101.0, 361.0, 650.0, 1250.0, 1650.0, 2049.0]      #
+Aqi_MaxAqiArray   = [51.0, 101.0, 151.0, 201.0, 301.0, 401.0, 500.0]         #
+                                                                             #
+#MIN (038, O31, PM25, CO, SO2, NO2, AQI)                                     #
+O3_8Min_AqiArray  = [0.0, 55.0, 71.0, 86.0, 106.0, 0.0, 0.0]                 #
+PM25_MinAqiArray  = [0.0, 12.1, 35.5, 55.5, 150.5, 250.5, 350.5]             #
+CO_MinAqiArray    = [0.0, 4.5, 9.5, 12.5, 15.5, 30.5, 40.5]                  #
+SO2_MinAqiArray   = [0.0, 36.0, 76.0, 186.0, 305.0, 605.0, 805.0]            #
+NO2_MinAqiArray   = [0.0, 54.0, 101.0, 361.0, 650.0, 1250.0, 1650.0]         #
+Aqi_MinAqiArray   = [0.0, 51.0, 101.0, 151.0, 201.0, 301.0, 401.0]           #
+##############################################################################
 
 
 def AQI_convert( c , air):
@@ -123,9 +130,9 @@ def AQI_convert( c , air):
                 I=500
                 break;
 
-            elif ( PM25_MinAqiArray[i] <= c < PM25_MaxAqiArray[i]+0.1 ):
+            elif ( PM25_MinAqiArray[i] <= c < PM25_MaxAqiArray[i]):
                 c_low = PM25_MinAqiArray[i];
-                c_high = PM25_MaxAqiArray[i];5
+                c_high = PM25_MaxAqiArray[i];
                 i_low = Aqi_MinAqiArray[i];
                 i_high = Aqi_MaxAqiArray[i];
                 break;
@@ -136,7 +143,7 @@ def AQI_convert( c , air):
                 I = 500
                 break;
 
-            elif ( CO_MinAqiArray[i] <= c < CO_MaxAqiArray[i] +0.1):
+            elif ( CO_MinAqiArray[i] <= c < CO_MaxAqiArray[i]):
                 c_low = CO_MinAqiArray[i];
                 c_high = CO_MaxAqiArray[i];
                 i_low = Aqi_MinAqiArray[i];
@@ -148,7 +155,7 @@ def AQI_convert( c , air):
                 I = 500
                 break;
 
-            elif ( SO2_MinAqiArray[i] <= c < SO2_MaxAqiArray[i] +1):
+            elif ( SO2_MinAqiArray[i] <= c < SO2_MaxAqiArray[i]):
                 c_low = SO2_MinAqiArray[i];
                 c_high = SO2_MaxAqiArray[i];
                 i_low = Aqi_MinAqiArray[i];
@@ -160,7 +167,7 @@ def AQI_convert( c , air):
                 I = 500
                 break;
 
-            if ( NO2_MinAqiArray[i] <= c < NO2_MaxAqiArray[i] +1):
+            if ( NO2_MinAqiArray[i] <= c < NO2_MaxAqiArray[i]):
                 c_low = NO2_MinAqiArray[i];
                 c_high = NO2_MaxAqiArray[i];
                 i_low = Aqi_MinAqiArray[i];
@@ -172,7 +179,7 @@ def AQI_convert( c , air):
                 I = 500
                 break;
 
-            if ( O3_8Min_AqiArray[i] <= c < O3_8Max_AqiArray[i]+1 ):
+            if ( O3_8Min_AqiArray[i] <= c < O3_8Max_AqiArray[i]):
                 c_low = O3_8Min_AqiArray[i];
                 c_high = O3_8Max_AqiArray[i];
                 i_low = Aqi_MinAqiArray[i];
@@ -261,7 +268,7 @@ if __name__ == '__main__':
             scale = float(open("/sys/bus/iio/devices/iio:device0/in_voltage_scale").read())
             c3 = raw * scale
 
-            SN1 = ((c2 - 287) - (get_alpha(temp_c, 'NO2') * (c3 - 280))) / 0.258
+            SN1 = ((c2 - NO2_WE) - (get_alpha(temp_c, 'NO2') * (c3 - NO2_AE))) / NO2_alpha
             SN1 = SN1 if (SN1 >= 0) else -SN1
             print("NO2: {} ".format(SN1))
             SN1=AQI_convert(SN1, 'NO2')
@@ -288,7 +295,7 @@ if __name__ == '__main__':
             scale = float(open("/sys/bus/iio/devices/iio:device0/in_voltage_scale").read())
             c5 = raw * scale
 
-            SN2 = ((c4 - 394) - (get_alpha(temp_c, 'O3') * (c5 - 395))) / 0.393
+            SN2 = ((c4 - O3_WE) - (get_alpha(temp_c, 'O3') * (c5 - O3_AE))) / O3_alpha
             SN2 = SN2 if (SN2 >= 0) else -SN2
             print("O3: {} ".format(SN2))
             SN2 = AQI_convert(SN2, 'O3')
@@ -315,7 +322,7 @@ if __name__ == '__main__':
             scale = float(open("/sys/bus/iio/devices/iio:device0/in_voltage_scale").read())
             c7 = raw * scale
 
-            SN3 = ((c6 - 276) - (get_alpha(temp_c, 'CO') * (c7 - 280))) / 0.292
+            SN3 = ((c6 - CO_WE) - (get_alpha(temp_c, 'CO') * (c7 - CO_AE))) / CO_alpha
             SN3 = SN3/1000
             SN3 = SN3 if (SN3 >= 0) else -SN3
             print("CO: {} ".format(SN3))
@@ -343,7 +350,7 @@ if __name__ == '__main__':
             scale = float(open("/sys/bus/iio/devices/iio:device0/in_voltage_scale").read())
             c9 = raw * scale
 
-            SN4 = ((c8 - 282) - (get_alpha(temp_c, 'SO2') * (c9 - 304))) /0.3
+            SN4 = ((c8 - SO2_WE) - (get_alpha(temp_c, 'SO2') * (c9 - SO2_AE))) /SO2_alpha
             SN4 = SN4 if (SN4 >= 0) else -SN4
             print("SO2: {} ".format(SN4))
             SN4 = AQI_convert(SN4, 'SO2')
