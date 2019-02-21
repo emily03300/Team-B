@@ -180,9 +180,9 @@ def AQI_convert( c , air):
                 break;
     ###################computing AQI formula####################
     if(I!=500):
-        print("(i_high - i_low)= {} - {} = {}",i_high,i_low,(i_high - i_low))
-        print("(c_high - c_low)= {} - {} = {}",c_high,c_low,(c_high - c_low))
-        print("(c - c_low)= {} - {} = {}",c ,c_low,(c - c_low))
+        # print("(i_high - i_low)= {} - {} = {}",i_high,i_low,(i_high - i_low))
+        # print("(c_high - c_low)= {} - {} = {}",c_high,c_low,(c_high - c_low))
+        # print("(c - c_low)= {} - {} = {}",c ,c_low,(c - c_low))
         I = (((i_high - i_low) / (c_high - c_low)) * (c - c_low)) + i_low
     ############################################################
 
@@ -252,7 +252,8 @@ if __name__ == '__main__':
 
             raw = int(open("/sys/bus/iio/devices/iio:device0/in_voltage0_raw").read())
             scale = float(open("/sys/bus/iio/devices/iio:device0/in_voltage_scale").read())
-            c2 = raw * scale
+            c2 = round(raw * scale,1)
+            print("c2=",c2)
 
             neo.digitalWrite(pinNum[0], 1)
             neo.digitalWrite(pinNum[1], 1)
