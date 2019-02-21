@@ -323,7 +323,7 @@ if __name__ == '__main__':
             print("SO2-AQIconvert: {} ".format(SN4))
 
             #==mux 11==########## PM2.5
-            raw, scale = contol_mux(1,0,1,1)
+            raw, scale = contol_mux(1,1,0,1)
             sleep(0.05)
             c11 = (raw * scale) / 1000  #volt
 
