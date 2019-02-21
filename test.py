@@ -334,6 +334,7 @@ if __name__ == '__main__':
             c7 = raw * scale
 
             SN3 = ((c6 - 276) - (get_alpha(temp_c, 'CO') * (c7 - 280))) / 0.292
+            SN3 = SN3/1000
             SN3 = SN3 if (SN3 >= 0) else -SN3
             print("CO: {} ".format(SN3))
             SN3 = AQI_convert(SN3, 'CO')
