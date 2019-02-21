@@ -5,40 +5,39 @@ from time import sleep  # import sleep to wait for blinks
 from btserver import BTServer
 from bterror import BTError
 
-#import client_handler
 from datetime import datetime
 import argparse
 import asyncore
 import json
-# from random import uniform
+
 from threading import Thread
 from time import sleep, time
 from neo import Gpio
-# from pytz import timezone
-############ Alpha sense data sheet #############
-NO2_WE = 287; NO2_AE = 280; NO2_alpha = 0.212;  #
-O3_WE = 394; O3_AE = 395; O3_alpha = 0.276;     #
-CO_WE = 276; CO_AE = 280; CO_alpha = 0.266;     #
-SO2_WE = 282; SO2_AE = 304; SO2_alpha = 0.296;  #
-#################################################
 
-def contol_mux( a, b, c, d):
+############ Alpha sense data sheet ##############
+NO2_WE = 287; NO2_AE = 280; NO2_alpha = 0.212;  ##
+O3_WE = 394; O3_AE = 395; O3_alpha = 0.276;     ##
+CO_WE = 276; CO_AE = 280; CO_alpha = 0.266;     ##
+SO2_WE = 282; SO2_AE = 304; SO2_alpha = 0.296;  ##
+##################################################
+
+def contol_mux( a, b, c, d):         # use binary bit to control mux
     neo.digitalWrite(pinNum[0], d)
     neo.digitalWrite(pinNum[1], c)
     neo.digitalWrite(pinNum[2], b)
     neo.digitalWrite(pinNum[3], a)
 
-############################ N table ###################################
-#array for calculate alph                                              #
-#temp              -30,  -20   -10     0    10     20   30    40    50 #
-#index               0,    1,    2,    3,    4,    5,    6,    7 ,   8 #
-O3_tempArray  = [ 0.18, 0.18, 0.18, 0.18, 0.18, 0.18, 0.18, 0.18, 2.87]#
-SO2_tempArray = [ 0.85, 0.85, 0.85, 0.85, 0.85, 1.15, 1.45, 1.75, 1.95]#
-NO2_tempArray = [ 1.18, 1.18, 1.18, 1.18, 1.18, 1.18, 1.18, 2.00, 2.70]#
-CO_tempArray  = [ 1.40, 1.03, 0.85, 0.62, 0.30, 0.03,-0.25,-0.48,-0.80]#
-########################################################################
+############################ N table ####################################
+#array for calculate alph                                              ##
+#temp              -30,  -20   -10     0    10     20   30    40    50 ##
+#index               0,    1,    2,    3,    4,    5,    6,    7 ,   8 ##
+O3_tempArray  = [ 0.18, 0.18, 0.18, 0.18, 0.18, 0.18, 0.18, 0.18, 2.87]##
+SO2_tempArray = [ 0.85, 0.85, 0.85, 0.85, 0.85, 1.15, 1.45, 1.75, 1.95]##
+NO2_tempArray = [ 1.18, 1.18, 1.18, 1.18, 1.18, 1.18, 1.18, 2.00, 2.70]##
+CO_tempArray  = [ 1.40, 1.03, 0.85, 0.62, 0.30, 0.03,-0.25,-0.48,-0.80]##
+#########################################################################
 
-def get_alpha(temper, air): #air = NO2,O3, CO, SO2
+def get_alpha(temper, air): #air = (NO2,O3, CO, SO2)
     temper
     i=0 #index
     mulx=0 # multiple #times
@@ -100,25 +99,25 @@ def get_alpha(temper, air): #air = NO2,O3, CO, SO2
 
     return N
 
-############################ AQI table #######################################
-#AQI              0-50,  51-100, 101-150, 151-200, 201-300, 301-400, 401-500 #
-#index               0,       1,       2,       3,       4,       5,       6,#
-#MAX (038, O31, PM25, CO, SO2, NO2, AQI)                                     #
-O3_8Max_AqiArray  = [55.0, 71.0, 86.0, 106.0, 200.0,  0.0,  0.0]             #
-PM25_MaxAqiArray  = [12.1, 35.5, 55.5, 150.5, 250.5, 350.5, 500.4]           #
-CO_MaxAqiArray    = [4.5, 9.5, 12.5, 15.5, 30.5, 40.5, 50.4]                 #
-SO2_MaxAqiArray   = [36.0, 76.0, 186.0, 305.0, 605.0, 805.0, 1004.0]         #
-NO2_MaxAqiArray   = [54.0, 101.0, 361.0, 650.0, 1250.0, 1650.0, 2049.0]      #
-Aqi_MaxAqiArray   = [51.0, 101.0, 151.0, 201.0, 301.0, 401.0, 500.0]         #
-                                                                             #
-#MIN (038, O31, PM25, CO, SO2, NO2, AQI)                                     #
-O3_8Min_AqiArray  = [0.0, 55.0, 71.0, 86.0, 106.0, 0.0, 0.0]                 #
-PM25_MinAqiArray  = [0.0, 12.1, 35.5, 55.5, 150.5, 250.5, 350.5]             #
-CO_MinAqiArray    = [0.0, 4.5, 9.5, 12.5, 15.5, 30.5, 40.5]                  #
-SO2_MinAqiArray   = [0.0, 36.0, 76.0, 186.0, 305.0, 605.0, 805.0]            #
-NO2_MinAqiArray   = [0.0, 54.0, 101.0, 361.0, 650.0, 1250.0, 1650.0]         #
-Aqi_MinAqiArray   = [0.0, 51.0, 101.0, 151.0, 201.0, 301.0, 401.0]           #
-##############################################################################
+############################ AQI table ########################################
+#AQI              0-50,  51-100, 101-150, 151-200, 201-300, 301-400, 401-500 ##
+#index               0,       1,       2,       3,       4,       5,       6,##
+#MAX (038, O31, PM25, CO, SO2, NO2, AQI)                                     ##
+O3_8Max_AqiArray  = [55.0, 71.0, 86.0, 106.0, 200.0,  0.0,  0.0]             ##
+PM25_MaxAqiArray  = [12.1, 35.5, 55.5, 150.5, 250.5, 350.5, 500.4]           ##
+CO_MaxAqiArray    = [4.5, 9.5, 12.5, 15.5, 30.5, 40.5, 50.4]                 ##
+SO2_MaxAqiArray   = [36.0, 76.0, 186.0, 305.0, 605.0, 805.0, 1004.0]         ##
+NO2_MaxAqiArray   = [54.0, 101.0, 361.0, 650.0, 1250.0, 1650.0, 2049.0]      ##
+Aqi_MaxAqiArray   = [51.0, 101.0, 151.0, 201.0, 301.0, 401.0, 500.0]         ##
+                                                                             ##
+#MIN (038, O31, PM25, CO, SO2, NO2, AQI)                                     ##
+O3_8Min_AqiArray  = [0.0, 55.0, 71.0, 86.0, 106.0, 0.0, 0.0]                 ##
+PM25_MinAqiArray  = [0.0, 12.1, 35.5, 55.5, 150.5, 250.5, 350.5]             ##
+CO_MinAqiArray    = [0.0, 4.5, 9.5, 12.5, 15.5, 30.5, 40.5]                  ##
+SO2_MinAqiArray   = [0.0, 36.0, 76.0, 186.0, 305.0, 605.0, 805.0]            ##
+NO2_MinAqiArray   = [0.0, 54.0, 101.0, 361.0, 650.0, 1250.0, 1650.0]         ##
+Aqi_MinAqiArray   = [0.0, 51.0, 101.0, 151.0, 201.0, 301.0, 401.0]           ##
+###############################################################################
 
 
 def AQI_convert( c , air):
@@ -189,10 +188,10 @@ def AQI_convert( c , air):
                 i_low = Aqi_MinAqiArray[i];
                 i_high = Aqi_MaxAqiArray[i];
                 break;
-    ###################computing AQI formula####################
-    if(I!=500):
-        I = (((i_high - i_low) / (c_high - c_low)) * (c - c_low)) + i_low
-    ############################################################
+#######################computing AQI formula#################################
+    if(I!=500):                                                            ##
+        I = (((i_high - i_low) / (c_high - c_low)) * (c - c_low)) + i_low  ##
+#############################################################################
 
     return I;
 
@@ -239,12 +238,8 @@ if __name__ == '__main__':
             #us_timezone = timezone('America/Los_Angeles')
             epochtime = datetime.now()
 
-
+            #==mux 0==##########
             contol_mux(0,0,0,0)
-            # neo.digitalWrite(pinNum[0], 0)
-            # neo.digitalWrite(pinNum[1], 0)
-            # neo.digitalWrite(pinNum[2], 0)
-            # neo.digitalWrite(pinNum[3], 0)
             sleep(1)
             raw = int(open("/sys/bus/iio/devices/iio:device0/in_voltage0_raw").read())
             scale = float(open("/sys/bus/iio/devices/iio:device0/in_voltage_scale").read())
@@ -253,143 +248,102 @@ if __name__ == '__main__':
             temp = (temp_c * 1.8) + 32
             print("temp: {} F".format(temp))
 
-            # Alphasense SN1
+            #==mux 2==########## NO2_WE
             contol_mux(0,0,1,0)
-            # neo.digitalWrite(pinNum[0], 0)
-            # neo.digitalWrite(pinNum[1], 1)
-            # neo.digitalWrite(pinNum[2], 0)
-            # neo.digitalWrite(pinNum[3], 0)
             sleep(0.05)
-
             raw = int(open("/sys/bus/iio/devices/iio:device0/in_voltage0_raw").read())
             scale = float(open("/sys/bus/iio/devices/iio:device0/in_voltage_scale").read())
             c2 = raw * scale
 
+            #==mux 3==########## NO2_AE
             contol_mux(0,0,1,1)
-            # neo.digitalWrite(pinNum[0], 1)
-            # neo.digitalWrite(pinNum[1], 1)
-            # neo.digitalWrite(pinNum[2], 0)
-            # neo.digitalWrite(pinNum[3], 0)
             sleep(0.05)
-
             raw = int(open("/sys/bus/iio/devices/iio:device0/in_voltage0_raw").read())
             scale = float(open("/sys/bus/iio/devices/iio:device0/in_voltage_scale").read())
             c3 = raw * scale
 
+            # Alphasense SN1 >> NO2
             SN1 = ((c2 - NO2_WE) - (get_alpha(temp_c, 'NO2') * (c3 - NO2_AE))) / NO2_alpha
             SN1 = SN1 if (SN1 >= 0) else -SN1
-            raw_SN1=SN1
             print("NO2: {} ".format(SN1))
             SN1=AQI_convert(SN1, 'NO2')
             print("NO2-AQIconvert: {} ".format(SN1))
 
-            # Alphasense SN2
+            #==mux 4==########## O3_WE
             contol_mux(0,1,0,0)
-            # neo.digitalWrite(pinNum[0], 0)
-            # neo.digitalWrite(pinNum[1], 0)
-            # neo.digitalWrite(pinNum[2], 1)
-            # neo.digitalWrite(pinNum[3], 0)
             sleep(0.05)
-
             raw = int(open("/sys/bus/iio/devices/iio:device0/in_voltage0_raw").read())
             scale = float(open("/sys/bus/iio/devices/iio:device0/in_voltage_scale").read())
             c4 = raw * scale
 
+            #==mux 5==########## O3_AE
             contol_mux(0,1,0,1)
-            # neo.digitalWrite(pinNum[0], 1)
-            # neo.digitalWrite(pinNum[1], 0)
-            # neo.digitalWrite(pinNum[2], 1)
-            # neo.digitalWrite(pinNum[3], 0)
             sleep(0.05)
-
             raw = int(open("/sys/bus/iio/devices/iio:device0/in_voltage0_raw").read())
             scale = float(open("/sys/bus/iio/devices/iio:device0/in_voltage_scale").read())
             c5 = raw * scale
 
+            # Alphasense SN2 >> O3
             SN2 = ((c4 - O3_WE) - (get_alpha(temp_c, 'O3') * (c5 - O3_AE))) / O3_alpha
             SN2 = SN2 if (SN2 >= 0) else -SN2
-            raw_SN2 = SN2
             print("O3: {} ".format(SN2))
             SN2 = AQI_convert(SN2, 'O3')
             print("O3-AQIconverted: {} ".format(SN2))
 
-            # Alphasense SN3
+            #==mux 6==########## CO_WE
             contol_mux(0,1,1,0)
-            # neo.digitalWrite(pinNum[0], 0)
-            # neo.digitalWrite(pinNum[1], 1)
-            # neo.digitalWrite(pinNum[2], 1)
-            # neo.digitalWrite(pinNum[3], 0)
             sleep(0.05)
-
             raw = int(open("/sys/bus/iio/devices/iio:device0/in_voltage0_raw").read())
             scale = float(open("/sys/bus/iio/devices/iio:device0/in_voltage_scale").read())
             c6 = raw * scale
 
+            #==mux 7==########## CO_AE
             contol_mux(0,1,1,1)
-            # neo.digitalWrite(pinNum[0], 1)
-            # neo.digitalWrite(pinNum[1], 1)
-            # neo.digitalWrite(pinNum[2], 1)
-            # neo.digitalWrite(pinNum[3], 0)
             sleep(0.05)
-
             raw = int(open("/sys/bus/iio/devices/iio:device0/in_voltage0_raw").read())
             scale = float(open("/sys/bus/iio/devices/iio:device0/in_voltage_scale").read())
             c7 = raw * scale
 
+            # Alphasense SN3
             SN3 = ((c6 - CO_WE) - (get_alpha(temp_c, 'CO') * (c7 - CO_AE))) / CO_alpha
             SN3 = SN3/1000
             SN3 = SN3 if (SN3 >= 0) else -SN3
-            raw_SN3 = SN3
             print("CO: {} ".format(SN3))
             SN3 = AQI_convert(SN3, 'CO')
             print("CO-AQIconvert: {} ".format(SN3))
 
-            # Alphasense SN4
+            #==mux 8==########## SO2_WE
             contol_mux(1,0,0,0)
-            # neo.digitalWrite(pinNum[0], 0)
-            # neo.digitalWrite(pinNum[1], 0)
-            # neo.digitalWrite(pinNum[2], 0)
-            # neo.digitalWrite(pinNum[3], 1)
             sleep(0.05)
-
             raw = int(open("/sys/bus/iio/devices/iio:device0/in_voltage0_raw").read())
             scale = float(open("/sys/bus/iio/devices/iio:device0/in_voltage_scale").read())
             c8 = raw * scale
 
+            #==mux 9==########## SO2_AE
             contol_mux(1,0,0,1)
-            # neo.digitalWrite(pinNum[0], 1)
-            # neo.digitalWrite(pinNum[1], 0)
-            # neo.digitalWrite(pinNum[2], 0)
-            # neo.digitalWrite(pinNum[3], 1)
             sleep(0.05)
-
             raw = int(open("/sys/bus/iio/devices/iio:device0/in_voltage0_raw").read())
             scale = float(open("/sys/bus/iio/devices/iio:device0/in_voltage_scale").read())
             c9 = raw * scale
 
+            # Alphasense SN4
             SN4 = ((c8 - SO2_WE) - (get_alpha(temp_c, 'SO2') * (c9 - SO2_AE))) /SO2_alpha
             SN4 = SN4 if (SN4 >= 0) else -SN4
-            raw_SN4 = SN4
             print("SO2: {} ".format(SN4))
             SN4 = AQI_convert(SN4, 'SO2')
             print("SO2-AQIconvert: {} ".format(SN4))
 
-            # PM2.5
+            #==mux 11==########## PM2.5
             contol_mux(1,0,1,1)
-            # neo.digitalWrite(pinNum[0], 1)
-            # neo.digitalWrite(pinNum[1], 1)
-            # neo.digitalWrite(pinNum[2], 0)
-            # neo.digitalWrite(pinNum[3], 1)
             sleep(0.05)
-
             raw = int(open("/sys/bus/iio/devices/iio:device0/in_voltage0_raw").read())
             scale = float(open("/sys/bus/iio/devices/iio:device0/in_voltage_scale").read())
             c11 = (raw * scale) / 1000
 
+            #PM2.5
             hppcf = (240.0 * pow(c11, 6) - 2491.3 * pow(c11, 5) + 9448.7 * pow(c11, 4) - 14840.0 * pow(c11, 3) + 10684.0 * pow(
                 c11, 2) + 2211.8 * c11 + 7.9623)
             PM25 = 0.518 + .00274 * hppcf
-            raw_PM25 = PM25
             print("PM25: {} ".format(PM25))
             PM25 = AQI_convert(PM25, 'PM25')
             print("PM25-AQIconvert: {} ".format(PM25))
@@ -410,7 +364,7 @@ if __name__ == '__main__':
                           'PM2.5': PM25}
                 msg = json.dumps(output)
             elif args.output_format == "csv":
-                 msg = "realtime, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}".format(epochtime, temp, SN1, SN2, SN3, SN4, PM25, raw_SN1, raw_SN2, raw_SN3, raw_SN4, raw_PM25)
+                 msg = "realtime, {}, {}, {}, {}, {}, {}, {}".format(epochtime, temp, SN1, SN2, SN3, SN4, PM25)
             try:
                 client_handler.send((msg + '\n').encode('ascii'))
             except Exception as e:
