@@ -341,7 +341,7 @@ if __name__ == '__main__':
 
             SN4 = ((c8 - 282) - (get_alpha(temp_c, 'SO2') * (c9 - 304))) /0.3
             SN4 = SN4 if (SN4 >= 0) else -SN4
-            SN4 = AQI_convert(SN4, 'SO2')
+            #SN4 = AQI_convert(SN4, 'SO2')
             print("SO2: {} ".format(SN4))
 
             # PM2.5
