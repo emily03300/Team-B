@@ -122,15 +122,24 @@ def AQI_convert( c , air):
 
     if (air == 'PM25'):
         for i in range(0, 7):
-            if ( PM25_MinAqiArray[i] <= c <= PM25_MaxAqiArray[i] ):
+            if(PM25_MaxAqiArray[i] < c):
+                I=500
+                break;
+
+            elif ( PM25_MinAqiArray[i] <= c <= PM25_MaxAqiArray[i] ):
                 c_low = PM25_MinAqiArray[i];
                 c_high = PM25_MaxAqiArray[i];
                 i_low = Aqi_MaxAqiArray[i];
                 i_high = Aqi_MinAqiArray[i];
                 break;
+
     elif (air == 'CO'):
         for i in range(0, 7):
-            if ( CO_MinAqiArray[i] <= c <= CO_MaxAqiArray[i] ):
+            if (CO_MaxAqiArray[i] < c):
+                I = 500
+                break;
+
+            elif ( CO_MinAqiArray[i] <= c <= CO_MaxAqiArray[i] ):
                 c_low = CO_MinAqiArray[i];
                 c_high = CO_MaxAqiArray[i];
                 i_low = Aqi_MaxAqiArray[i];
@@ -138,7 +147,11 @@ def AQI_convert( c , air):
                 break;
     elif (air == 'SO2'):
         for i in range(0, 7):
-            if ( SO2_MinAqiArray[i] <= c <= SO2_MaxAqiArray[i] ):
+            if (SO2_MaxAqiArray[i] < c):
+                I = 500
+                break;
+
+            elif ( SO2_MinAqiArray[i] <= c <= SO2_MaxAqiArray[i] ):
                 c_low = SO2_MinAqiArray[i];
                 c_high = SO2_MaxAqiArray[i];
                 i_low = Aqi_MaxAqiArray[i];
@@ -146,6 +159,10 @@ def AQI_convert( c , air):
                 break;
     elif (air == 'NO2'):
         for i in range(0, 7):
+            if (NO2_MaxAqiArray[i] < c):
+                I = 500
+                break;
+
             if ( NO2_MinAqiArray[i] <= c <= NO2_MaxAqiArray[i] ):
                 c_low = NO2_MinAqiArray[i];
                 c_high = NO2_MaxAqiArray[i];
@@ -154,9 +171,11 @@ def AQI_convert( c , air):
                 break;
 
     ###################computing AQI formula####################
-    I = (((i_high - i_low)/(c_high - c_low))*(c-c_low)) + i_low
+    if(I!=500):
+        I = (((i_high - i_low) / (c_high - c_low)) * (c - c_low)) + i_low
     ############################################################
 
+    #not yet
     if (air == 'O3'):
         c_low = 0.0
         c_high = 0.0
