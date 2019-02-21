@@ -165,6 +165,7 @@ if __name__ == '__main__':
             c3 = raw * scale
 
             SN1 = ((c2 - 287) - (get_alpha(temp_c, 'NO2') * (c3 - 280))) / 0.258
+            SN1 = SN1 if (SN1 >= 0) else -SN1
             print("NO2: {} ".format(SN1))
 
             # Alphasense SN2
@@ -189,6 +190,7 @@ if __name__ == '__main__':
             c5 = raw * scale
 
             SN2 = ((c4 - 394) - (get_alpha(temp_c, 'O3') * (c5 - 395))) / 0.393
+            SN2 = SN2 if (SN2 >= 0) else -SN2
             print("O3: {} ".format(SN2))
 
             # Alphasense SN3
@@ -213,6 +215,7 @@ if __name__ == '__main__':
             c7 = raw * scale
 
             SN3 = ((c6 - 276) - (get_alpha(temp_c, 'CO') * (c7 - 280))) / 0.292
+            SN3 = SN3 if (SN3 >= 0) else -SN3
             print("CO: {} ".format(SN3))
 
             # Alphasense SN4
@@ -237,6 +240,7 @@ if __name__ == '__main__':
             c9 = raw * scale
 
             SN4 = ((c8 - 282) - (get_alpha(temp_c, 'SO2') * (c9 - 304))) /0.3
+            SN4 = SN4 if (SN4 >= 0) else -SN4
             print("SO2: {} ".format(SN4))
 
             # PM2.5
@@ -271,7 +275,7 @@ if __name__ == '__main__':
                           'PM2.5': PM25}
                 msg = json.dumps(output)
             elif args.output_format == "csv":
-                 msg = "realtime, {}, {}, {}, {}, {}, {}, {}".format(epochtime, temp, SN1/20, SN2/20, SN3/20, SN4/20, PM25/20)
+                 msg = "realtime, {}, {}, {}, {}, {}, {}, {}".format(epochtime, temp, SN1, SN2, SN3, SN4, PM25)
             try:
                 client_handler.send((msg + '\n').encode('ascii'))
             except Exception as e:
