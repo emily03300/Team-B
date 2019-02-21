@@ -282,6 +282,7 @@ if __name__ == '__main__':
 
             SN1 = ((c2 - 287) - (get_alpha(temp_c, 'NO2') * (c3 - 280))) / 0.258
             SN1 = SN1 if (SN1 >= 0) else -SN1
+            print("NO2: {} ".format(SN1))
             SN1=AQI_convert(SN1, 'NO2')
             print("NO2-AQIconvert: {} ".format(SN1))
 
@@ -334,6 +335,7 @@ if __name__ == '__main__':
 
             SN3 = ((c6 - 276) - (get_alpha(temp_c, 'CO') * (c7 - 280))) / 0.292
             SN3 = SN3 if (SN3 >= 0) else -SN3
+            print("CO: {} ".format(SN3))
             SN3 = AQI_convert(SN3, 'CO')
             print("CO-AQIconvert: {} ".format(SN3))
 
@@ -360,6 +362,7 @@ if __name__ == '__main__':
 
             SN4 = ((c8 - 282) - (get_alpha(temp_c, 'SO2') * (c9 - 304))) /0.3
             SN4 = SN4 if (SN4 >= 0) else -SN4
+            print("SO2: {} ".format(SN4))
             SN4 = AQI_convert(SN4, 'SO2')
             print("SO2-AQIconvert: {} ".format(SN4))
 
@@ -377,6 +380,7 @@ if __name__ == '__main__':
             hppcf = (240.0 * pow(c11, 6) - 2491.3 * pow(c11, 5) + 9448.7 * pow(c11, 4) - 14840.0 * pow(c11, 3) + 10684.0 * pow(
                 c11, 2) + 2211.8 * c11 + 7.9623)
             PM25 = 0.518 + .00274 * hppcf
+            print("PM25: {} ".format(PM25))
             PM25 = AQI_convert(PM25, 'PM25')
             print("PM25-AQIconvert: {} ".format(PM25))
             # print("It's now: {:%Y/%m/%d %H:%M:%S}".format(epochtime))
