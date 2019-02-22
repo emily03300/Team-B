@@ -335,10 +335,11 @@ if __name__ == '__main__':
             # # hppcf = (240.0 * pow(c11, 6) - 2491.3 * pow(c11, 5) + 9448.7 * pow(c11, 4) - 14840.0 * pow(c11, 3) + 10684.0 * pow(
             # #     c11, 2) + 2211.8 * c11 + 7.9623)
             # # PM25 = 0.518 + .00274 * hppcf
-            # # raw_PM25= PM25
-            # # print("PM25: {} ".format(PM25))
-            # # PM25 = AQI_convert(PM25, 'PM25')
-            PM25=random.randrange(10.0, 13.0)
+            # raw_PM25= PM25
+            raw_PM25 = random.randrange(10.0, 13.0)
+            print("PM25: {} ".format(PM25))
+            PM25 = AQI_convert(PM25, 'PM25')
+            # PM25=random.randrange(10.0, 13.0)
             print("PM25-AQIconvert: {} ".format(PM25))
             # print("It's now: {:%Y/%m/%d %H:%M:%S}".format(epochtime))
             print("\n")
