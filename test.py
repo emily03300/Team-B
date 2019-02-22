@@ -325,7 +325,7 @@ if __name__ == '__main__':
             SN4 = AQI_convert(SN4, 'SO2')
             print("SO2-AQIconvert: {} ".format(SN4))
 
-            # Team B _PM25 sensor broken
+            ###### ** Team B _PM25 sensor broken **####
             # # #==mux 11==########## PM2.5
             # # raw, scale = contol_mux(1,0,1,1)
             # # sleep(0.05)
@@ -336,7 +336,7 @@ if __name__ == '__main__':
             # #     c11, 2) + 2211.8 * c11 + 7.9623)
             # # PM25 = 0.518 + .00274 * hppcf
             # raw_PM25= PM25
-            PM25 = random.uniform(10.0, 12.0)
+            PM25 = random.uniform(10.0, 12.0) #make random PM25 data
             raw_PM25 = PM25
             print("PM25: {} ".format(PM25))
             PM25 = AQI_convert(PM25, 'PM25')
