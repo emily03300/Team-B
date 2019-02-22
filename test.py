@@ -326,17 +326,18 @@ if __name__ == '__main__':
             print("SO2-AQIconvert: {} ".format(SN4))
 
             ###### ** Team B _PM25 sensor broken **####
-            # # #==mux 11==########## PM2.5
-            # # raw, scale = contol_mux(1,0,1,1)
-            # # sleep(0.05)
-            # # c11 = (raw * scale) / 1000  #volt
-            # #
-            # # #PM2.5
-            # # hppcf = (240.0 * pow(c11, 6) - 2491.3 * pow(c11, 5) + 9448.7 * pow(c11, 4) - 14840.0 * pow(c11, 3) + 10684.0 * pow(
-            # #     c11, 2) + 2211.8 * c11 + 7.9623)
-            # # PM25 = 0.518 + .00274 * hppcf
+            # #==mux 11==########## PM2.5
+            raw, scale = contol_mux(1,0,1,1)
+            sleep(0.05)
+            c11 = (raw * scale) / 1000  #volt
+
+            #PM2.5
+            hppcf = (240.0 * pow(c11, 6) - 2491.3 * pow(c11, 5) + 9448.7 * pow(c11, 4) - 14840.0 * pow(c11, 3) + 10684.0 * pow(
+                c11, 2) + 2211.8 * c11 + 7.9623)
+            PM25 = 0.518 + .00274 * hppcf
             # raw_PM25= PM25
-            PM25 = random.uniform(10.0, 12.0) #make random PM25 data
+
+            #PM25 = random.uniform(10.0, 12.0) #make random PM25 data
             raw_PM25 = PM25
             print("PM25: {} ".format(PM25))
             PM25 = AQI_convert(PM25, 'PM25')
