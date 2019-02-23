@@ -1,6 +1,4 @@
 import argparse
-import random
-
 from neo import Gpio  # import Gpio library
 from time import sleep  # import sleep to wait for blinks
 
@@ -11,7 +9,6 @@ from datetime import datetime
 import argparse
 import asyncore
 import json
-import random as random
 
 from threading import Thread
 from time import sleep, time
@@ -25,10 +22,10 @@ SO2_WE = 282; SO2_AE = 304; SO2_alpha = 0.296;  ##
 ##################################################
 
 def contol_mux( a, b, c, d):         # use binary bit to control mux
-    neo.digitalWrite(pinNum[0], d)
-    neo.digitalWrite(pinNum[1], c)
-    neo.digitalWrite(pinNum[2], b)
-    neo.digitalWrite(pinNum[3], a)
+    neo.digitalWrite(pinNum[0], d)   # 1  = binary    1
+    neo.digitalWrite(pinNum[1], c)   # 2  = binary   10
+    neo.digitalWrite(pinNum[2], b)   # 4  = binary  100
+    neo.digitalWrite(pinNum[3], a)   # 8  = binary 1000
     raw = int(open("/sys/bus/iio/devices/iio:device0/in_voltage0_raw").read())
     scale = float(open("/sys/bus/iio/devices/iio:device0/in_voltage_scale").read())
     return raw, scale
@@ -43,7 +40,7 @@ NO2_tempArray = [ 1.18, 1.18, 1.18, 1.18, 1.18, 1.18, 1.18, 2.00, 2.70]##
 CO_tempArray  = [ 1.40, 1.03, 0.85, 0.62, 0.30, 0.03,-0.25,-0.48,-0.80]##
 #########################################################################
 
-def get_alpha(temper, air): #air = (NO2,O3, CO, SO2)
+def get_N(temper, air): #air = (NO2,O3, CO, SO2)
     temper
     i=0 #index
     mulx=0 # multiple #times
@@ -263,7 +260,7 @@ if __name__ == '__main__':
             c3 = raw * scale #volt
 
             # Alphasense SN1 >> NO2
-            SN1 = ((c2 - NO2_WE) - (get_alpha(temp_c, 'NO2') * (c3 - NO2_AE))) / NO2_alpha
+            SN1 = ((c2 - NO2_WE) - (get_N(temp_c, 'NO2') * (c3 - NO2_AE))) / NO2_alpha
             SN1 = SN1 if (SN1 >= 0) else -SN1
             raw_SN1=SN1
             print("NO2: {} ".format(SN1))
@@ -281,7 +278,7 @@ if __name__ == '__main__':
             c5 = raw * scale #volt
 
             # Alphasense SN2 >> O3
-            SN2 = ((c4 - O3_WE) - (get_alpha(temp_c, 'O3') * (c5 - O3_AE))) / O3_alpha
+            SN2 = ((c4 - O3_WE) - (get_N(temp_c, 'O3') * (c5 - O3_AE))) / O3_alpha
             SN2 = SN2 if (SN2 >= 0) else -SN2
             raw_SN2 = SN2
             print("O3: {} ".format(SN2))
@@ -299,7 +296,7 @@ if __name__ == '__main__':
             c7 = raw * scale #volt
 
             # Alphasense SN3
-            SN3 = ((c6 - CO_WE) - (get_alpha(temp_c, 'CO') * (c7 - CO_AE))) / CO_alpha
+            SN3 = ((c6 - CO_WE) - (get_N(temp_c, 'CO') * (c7 - CO_AE))) / CO_alpha
             SN3 = SN3/1000
             SN3 = SN3 if (SN3 >= 0) else -SN3
             raw_SN3 = SN3
@@ -318,15 +315,14 @@ if __name__ == '__main__':
             c9 = raw * scale #volt
 
             # Alphasense SN4
-            SN4 = ((c8 - SO2_WE) - (get_alpha(temp_c, 'SO2') * (c9 - SO2_AE))) /SO2_alpha
+            SN4 = ((c8 - SO2_WE) - (get_N(temp_c, 'SO2') * (c9 - SO2_AE))) /SO2_alpha
             SN4 = SN4 if (SN4 >= 0) else -SN4
             raw_SN4 = SN4
             print("SO2: {} ".format(SN4))
             SN4 = AQI_convert(SN4, 'SO2')
             print("SO2-AQIconvert: {} ".format(SN4))
 
-            ###### ** Team B _PM25 sensor broken **####
-            # #==mux 11==########## PM2.5
+            #==mux 11==########## PM2.5
             raw, scale = contol_mux(1,0,1,1)
             sleep(0.05)
             c11 = (raw * scale) / 1000  #volt
@@ -335,13 +331,9 @@ if __name__ == '__main__':
             hppcf = (240.0 * pow(c11, 6) - 2491.3 * pow(c11, 5) + 9448.7 * pow(c11, 4) - 14840.0 * pow(c11, 3) + 10684.0 * pow(
                 c11, 2) + 2211.8 * c11 + 7.9623)
             PM25 = 0.518 + .00274 * hppcf
-            # raw_PM25= PM25
-
-            #PM25 = random.uniform(10.0, 12.0) #make random PM25 data
-            raw_PM25 = PM25
+            raw_PM25= PM25
             print("PM25: {} ".format(PM25))
             PM25 = AQI_convert(PM25, 'PM25')
-            # PM25=random.randrange(10.0, 13.0)
             print("PM25-AQIconvert: {} ".format(PM25))
             # print("It's now: {:%Y/%m/%d %H:%M:%S}".format(epochtime))
             print("\n")
@@ -368,4 +360,4 @@ if __name__ == '__main__':
                 client_handler.handle_close()
 
         # Sleep for 5 seconds
-        sleep(4)
+        sleep(5)
