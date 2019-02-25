@@ -217,10 +217,10 @@ if __name__ == '__main__':
 
     neo =Gpio()
 
-    S0 = 24 # pin to use
-    S1 = 25
-    S2 = 26
-    S3 = 27
+    S0 = 8 # pin to use
+    S1 = 9
+    S2 = 10
+    S3 = 11
 
     pinNum = [S0, S1, S2, S3]
 
